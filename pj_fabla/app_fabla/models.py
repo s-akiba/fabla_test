@@ -14,9 +14,9 @@ class Post(models.Model):
     user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.CASCADE)
     category_no = models.ForeignKey('Category', verbose_name='カテゴリ番号', on_delete=models.SET_NULL, null=True)
     title = models.CharField(verbose_name='タイトル', max_length=30)
-    content = models.TextField(verbose_name='内容')
+    content = models.TextField(verbose_name='内容', blank=False)
     photo = models.ImageField(verbose_name='写真')
-    hide_reason = models.TextField(verbose_name='伏字化理由')
+    hide_reason = models.TextField(verbose_name='伏字化理由', blank=True)
     created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
 
     class Meta:
@@ -32,7 +32,7 @@ class Comment(models.Model):
 
     post_id = models.ForeignKey('Post', verbose_name='投稿ID', on_delete=models.CASCADE)
     user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.CASCADE)
-    content = models.TextField(verbose_name='コメント内容')
+    content = models.TextField(verbose_name='コメント内容', blank=False)
     created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
 
     class Meta:
@@ -44,7 +44,7 @@ class Comment(models.Model):
 
 class Category(models.Model):
     """カテゴリテーブル"""
-    name = models.CharField(verbose_name='カテゴリ名', max_length=20)
+    name = models.CharField(verbose_name='カテゴリ名', max_length=20, blank=False)
 
     class Meta:
         verbose_name_plural = 'カテゴリテーブル'
@@ -85,7 +85,7 @@ class ChatDetail(models.Model):
 
     chatroom_id = models.ForeignKey('Chat', verbose_name='チャットルームID', on_delete=models.CASCADE)
     user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.SET_NULL, null=True)
-    content = models.TextField(verbose_name='投稿内容')
+    content = models.TextField(verbose_name='投稿内容', blank=False)
     created_at = models.DateTimeField(verbose_name='投稿日時', auto_now_add=True)
 
     class Meta:
@@ -99,7 +99,7 @@ class PostReport(models.Model):
     """投稿通報テーブル"""
     post_id = models.ForeignKey('Post', verbose_name='投稿ID', on_delete=models.PROTECT)
     user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.PROTECT)
-    report_reason = models.TextField(verbose_name='通報理由')
+    report_reason = models.TextField(verbose_name='通報理由', blank=False)
     created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
 
     class Meta:
@@ -113,7 +113,7 @@ class ChatReport(models.Model):
     """チャット通報テーブル"""
     chat_id = models.ForeignKey('ChatDetail', verbose_name='チャット詳細ID', on_delete=models.PROTECT)
     user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.PROTECT)
-    report_reason = models.TextField(verbose_name='通報理由')
+    report_reason = models.TextField(verbose_name='通報理由', blank=False)
     created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
 
     class Meta:
@@ -128,7 +128,7 @@ class CommentReport(models.Model):
     """コメント通報テーブル"""
     comment_id = models.ForeignKey('Comment', verbose_name='コメントID', on_delete=models.PROTECT)
     user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.PROTECT)
-    report_reason = models.TextField(verbose_name='通報理由')
+    report_reason = models.TextField(verbose_name='通報理由', blank=False)
     created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
 
     class Meta:

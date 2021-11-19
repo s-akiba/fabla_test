@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
@@ -14,7 +15,7 @@ import uuid
 
 
 
-class UserManager(BaseUserManager):
+class MyUserManager(BaseUserManager):
     """ユーザーマネージャー."""
 
     use_in_migrations = True
@@ -26,7 +27,6 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError('The given email must be set')
         email = self.normalize_email(email)#normalize_emailは正規表現化
-        user_id = self.model.normalize_user_id(user_id)
         
 
         user = self.model(user_id=user_id, email=email, **extra_fields)
@@ -73,7 +73,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     user_name = models.CharField(verbose_name='ユーザー名', max_length=30, blank=False)
     email = models.EmailField(verbose_name='メールアドレス', unique=True, blank=False)
     phone_number = models.CharField(verbose_name='電話番号', unique=True, blank=False, null=True, default=None, max_length=20)
-    birth = models.DateField(verbose_name='生年月日')
+    birth = models.DateField(verbose_name='生年月日', default=datetime.date.today())
     political_faction = models.CharField(verbose_name='党派', max_length=20)
     icon_photo = models.ImageField(verbose_name='アイコン写真')
     bio = models.TextField(verbose_name='ひとこと',max_length=150)
@@ -95,7 +95,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
                 )
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
-    objects     = UserManager()
+    objects     = MyUserManager()
 
     EMAIL_FIELD     = 'email'
     USERNAME_FIELD  = 'user_id'
