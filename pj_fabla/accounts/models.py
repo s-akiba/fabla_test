@@ -63,7 +63,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     user_id = models.CharField(verbose_name='ユーザーID',
                         max_length=20,
                         primary_key=True,
-                        help_text='英数字と_(アンダースコア)のみが使用できます。',
+                        help_text='ユーザーIDは一意です。英数字と_(アンダースコア)のみが使用できます。',
                         validators=[MinLengthValidator(3, '3文字以上です！'),RegexValidator(r'^[a-zA-Z0-9_]*$', '英数字と_(アンダースコア)のみです！')],
                         error_messages={
                         'unique': _("A user with that user_id already exists."),
@@ -71,7 +71,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     )
 
     user_name = models.CharField(verbose_name='ユーザー名', max_length=30, blank=False)
-    email = models.EmailField(verbose_name='メールアドレス', unique=True, blank=False)
+    email = models.EmailField(verbose_name='メールアドレス', unique=True, blank=False,help_text='入力されたメールアドレスに確認メールが送信されます。')
     phone_number = models.CharField(verbose_name='電話番号', unique=True, blank=False, null=True, default=None, max_length=20)
     birth = models.DateField(verbose_name='生年月日', default=datetime.date.today())
     political_faction = models.CharField(verbose_name='党派', max_length=20)
