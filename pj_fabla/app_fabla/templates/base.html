@@ -66,51 +66,53 @@
 
     <body>
 
-        <main id="main" role="main">
-            <div class="entry-content">
-                <div class="drawer drawer--left">
-                    <header> 
-                        <!-- スライドメニュー -->
-                        <button type="button" class="drawer-toggle drawer-hamburger">
-                            <span class="sr-only">toggle navigation</span>
-                            <span class="drawer-hamburger-icon"></span>
-                        </button>
-                        <nav class="drawer-nav">
-                            <ul class="drawer-menu">
-                                <li><a href="#">リンク1</a></li>
-                                <li><a href="#">リンク2</a></li>
-                                <li><a href="#">リンク5</a></li>
-                                <li class="drawer-dropdown"> <a href="#" data-toggle="dropdown">リンク9 プルダウン▼</a>
-                                    <ul class="drawer-dropdown-menu">
-                                        <li><a href="#">リンク9-1</a></li>
-                                        <li><a href="#">リンク9-2</a></li>
-                                        <li><a href="#">リンク9-3</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">リンク10</a></li>
-                                <li><a href="#">リンク11</a></li>
-                            </ul>
-                        </nav>
-                        <!-- スライドメニュー　ここまで -->
-                        <!-- nav bar -->
-                        <nav class="navbar navbar-default navbar-fixed-top">
-                            <div class="container">
-                                <div class="navbar-header"> <a class="navbar-brand" href="#">Brand Name</a> </div>
-                            </div>
-                        </nav>
-                        <!-- nav bar ここまで -->
-                    </header>
-                </div>
-            </div><!-- .entry-content -->
-        </main>
+        <div class="entry-content">
+            <div class="drawer drawer--left">
+                <header> 
+                    <!-- スライドメニュー -->
+                    <button type="button" class="drawer-toggle drawer-hamburger">
+                        <span class="sr-only">toggle navigation</span>
+                        <span class="drawer-hamburger-icon"></span>
+                    </button>
+                    <nav class="drawer-nav">
+                        <ul class="drawer-menu">
+                            <li><a href="#">リンク1</a></li>
+                            <li><a href="#">リンク2</a></li>
+                            <li><a href="#">リンク5</a></li>
+                            <li class="drawer-dropdown"> <a href="#" data-toggle="dropdown">リンク9 プルダウン▼</a>
+                                <ul class="drawer-dropdown-menu">
+                                    <li><a href="#">リンク9-1</a></li>
+                                    <li><a href="#">リンク9-2</a></li>
+                                    <li><a href="#">リンク9-3</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">リンク10</a></li>
+                            <li><a href="#">リンク11</a></li>
+                        </ul>
+                    </nav>
+                    <!-- スライドメニュー　ここまで -->
+                    <!-- nav bar -->
+                    <nav class="navbar navbar-default navbar-fixed-top">
+                        <div class="container">
+                            <div class="navbar-header"> <a class="navbar-brand" href="{% url 'app_fabla:index' %}">Brand Name</a> </div>
+                        </div>
+                    </nav>
+                    <!-- nav bar ここまで -->
+                </header>
+            </div>
+        </div><!-- .entry-content -->
+    
+        
 
         {% block header %}{% endblock %}
 
         {% block contents %}{% endblock %}
+
+        <button class="post_btn">投稿</button>
     
         <!-- Footer -->
         <footer>
-            <div class="container-fluid text-center">
+            <div class="container-fluid text-center fixed-bottom">
                 <hr>
                 <p class="help-block">Copyright &#169; kishiken.com All rights reserved.</p>
             </div>
