@@ -13,3 +13,7 @@ class PostListView(generic.ListView):
 
     def get_queryset(self):
         return super().get_queryset()
+
+class PostDetail(generic.DetailView):
+    template_name = "post_detail.html"
+    model = Post
