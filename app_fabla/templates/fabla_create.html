@@ -1,0 +1,30 @@
+<!-- base.htmlをもとにしてページを作成する為の宣言 -->
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- title を入力 -->
+{% block title %}新規投稿 | Fabla{% endblock %}
+
+<!-- {% block active_diary_list %}active{% endblock %} -->
+
+{% block contents %}
+<section>
+
+<div class="container">
+
+    <div class="starter-template text-center py-5 px-3">
+        <form method="POST" enctype='multipart/form-data'>
+            {% csrf_token %}
+            <table class="table">
+                {{ form.as_table }}
+            </table>
+
+            <button class="btn btn-primary" type="submit">作成</button>
+
+
+        </form>
+
+    </div>
+
+</div><!-- /.container -->
+{% endblock %}
