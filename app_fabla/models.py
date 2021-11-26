@@ -15,7 +15,7 @@ class Post(models.Model):
     category_no = models.ForeignKey('Category', verbose_name='カテゴリ番号', on_delete=models.SET_NULL, null=True)
     title = models.CharField(verbose_name='タイトル', max_length=30)
     content = models.TextField(verbose_name='内容', blank=False)
-    photo = models.ImageField(verbose_name='写真')
+    photo = models.ImageField(verbose_name='写真', blank=True, null=True)
     hide_reason = models.TextField(verbose_name='伏字化理由', blank=True)
     created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
 
