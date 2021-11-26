@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block contents %}
+
+{% for fabla in object_list %}
+    <div class="list-preview">
+        <a href="#">
+            <h2 class="list-name">
+                {{ fabla.user_name }}
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                    
+                </a>
+            </h2>
+            <h3 class="list-bio">
+                {{ fabla.bio }}
+            </h3>
+        </a>
+        {% if fabla.icon_photo %}
+            <img src="{{ fabla.icon_photo.url }}"width="50" height="50"/>
+        {% endif %}
+    </div>
+{% endfor %}
+
+{% endblock %}

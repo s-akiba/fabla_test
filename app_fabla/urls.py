@@ -7,5 +7,5 @@ urlpatterns = [
     path('post-list/',views.PostListView.as_view(), name="post_list"),
     # 画面詳細へ
     path('post-detail/<uuid:pk>/',views.PostDetail.as_view(),name="post_detail"),
-
+    path('congressman/',views.CongressmanListView.as_view(), name="congressman")
 ]
