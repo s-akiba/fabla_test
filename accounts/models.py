@@ -1,121 +1,148 @@
-import datetime
+from django.contrib.auth.models import User
 from django.db import models
+import uuid
 
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, UserManager
-from django.contrib.auth.base_user import BaseUserManager
-
-from django.utils import timezone
-
-from django.utils.translation import gettext_lazy as _
-from django.core.mail import send_mail
-from django.core.validators import MinLengthValidator, RegexValidator
-import uuid 
+from accounts.models import CustomUser
 
 # Create your models here.
 
 
+class Post(models.Model):
+    """投稿テーブル"""
+    post_id = models.UUIDField(verbose_name='投稿ID', primary_key=True, default=uuid.uuid4, editable=False)
 
-class MyUserManager(BaseUserManager):
-    """ユーザーマネージャー."""
-
-    use_in_migrations = True
-
-    def _create_user(self, user_id, email, password, **extra_fields):
-        """メールアドレスでの登録を必須にする"""
-        if not user_id:
-            raise ValueError('Users must have an user_id')
-        if not email:
-            raise ValueError('The given email must be set')
-        email = self.normalize_email(email)#normalize_emailは正規表現化
-        
-
-        user = self.model(user_id=user_id, email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_user(self, user_id, email, password=None, **extra_fields):#
-        """is_staff(管理サイトにログインできるか)と、is_superuer(全ての権限)をFalseに"""
-        extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
-        return self._create_user(user_id, email, password, **extra_fields)#
-
-    def create_superuser(self, user_id, email, password, **extra_fields):#
-        """スーパーユーザーは、is_staffとis_superuserをTrueに"""
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
-
-        return self._create_user(user_id ,email, password, **extra_fields)
-
-
-
-
-
-
-class CustomUser(AbstractBaseUser, PermissionsMixin):
-
-    "ユーザーID [PK]"
-    user_id = models.CharField(verbose_name='ユーザーID',
-                        max_length=20,
-                        primary_key=True,
-                        help_text='ユーザーIDは一意です。英数字と_(アンダースコア)のみが使用できます。',
-                        validators=[MinLengthValidator(3, '3文字以上です！'),RegexValidator(r'^[a-zA-Z0-9_]*$', '英数字と_(アンダースコア)のみです！')],
-                        error_messages={
-                        'unique': _("A user with that user_id already exists."),
-                            },
-    )
-
-    user_name = models.CharField(verbose_name='ユーザー名', max_length=30, blank=False)
-    email = models.EmailField(verbose_name='メールアドレス', unique=True, blank=False,help_text='入力されたメールアドレスに確認メールが送信されます。')
-    phone_number = models.CharField(verbose_name='電話番号', unique=True, blank=False, null=True, default=None, max_length=20)
-    birth = models.DateField(verbose_name='生年月日', default=datetime.date.today())
-    political_faction = models.CharField(verbose_name='党派', max_length=20)
-    icon_photo = models.ImageField(verbose_name='アイコン写真', default='default.jpg')
-    bio = models.TextField(verbose_name='ひとこと',max_length=150)
-    assembly = models.BooleanField(verbose_name='議員', default=False)
-    updated_at = models.DateTimeField(verbose_name='更新日時', auto_now=True)
-
-    is_staff    = models.BooleanField(
-                    _('staff status'),
-                    default=False,
-                    help_text=_('Designates whether the user can log into this admin site.'),
-                )
-
-    is_active   = models.BooleanField(
-                    _('active'),
-                    default=True,
-                    help_text=_(
-                        'Designates whether this user should be treated as active. '
-                        'Unselect this instead of deleting accounts.'
-                    ),
-                )
-    date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
-
-    objects     = MyUserManager()
-
-    EMAIL_FIELD     = 'email'
-    USERNAME_FIELD  = 'user_id'
-    REQUIRED_FIELDS = ['email']
+    user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.CASCADE)
+    category_no = models.ForeignKey('Category', verbose_name='カテゴリ番号', on_delete=models.SET_NULL, null=True)
+    title = models.CharField(verbose_name='タイトル', max_length=30)
+    content = models.TextField(verbose_name='内容', blank=False)
+    photo = models.ImageField(verbose_name='写真', blank=True)
+    hide_reason = models.TextField(verbose_name='伏字化理由', blank=True)
+    created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
 
     class Meta:
-        verbose_name_plural = 'ユーザー'
-        #abstract            = True         #←ここをコメントアウトしないとカスタムユーザーモデルは反映されず、マイグレーションエラーを起こす。
+        verbose_name_plural = '投稿テーブル'
 
-    def clean(self):
-        super().clean()
-        self.email  = self.__class__.objects.normalize_email(self.email)
+    def __str__(self):
+        return self.title
 
-    def email_user(self, subject, message, from_email=None, **kwargs):
-        send_mail(subject, message, from_email, [self.email], **kwargs)
 
-    def get_full_name(self):
-        return self.user_name
+class Comment(models.Model):
+    """コメントテーブル"""
+    comment_id = models.UUIDField(verbose_name='コメントID', primary_key=True, default=uuid.uuid4, editable=False)
 
-    def get_short_name(self):
-        return self.user_name
+    post_id = models.ForeignKey('Post', verbose_name='投稿ID', on_delete=models.CASCADE)
+    user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.CASCADE)
+    content = models.TextField(verbose_name='コメント内容', blank=False)
+    created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
 
+    class Meta:
+        verbose_name_plural = 'コメントテーブル'
+
+    def __str__(self):
+        return str(self.comment_id)
+
+
+class Category(models.Model):
+    """カテゴリテーブル"""
+    name = models.CharField(verbose_name='カテゴリ名', max_length=20, blank=False)
+
+    class Meta:
+        verbose_name_plural = 'カテゴリテーブル'
+
+    def __str__(self):
+        return self.name
+
+
+class Good(models.Model):
+    """イイネテーブル"""
+    post_id = models.ForeignKey('Post', verbose_name='投稿ID', on_delete=models.CASCADE)
+    user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(verbose_name='登録日時', auto_now=True)
+
+    class Meta:
+        verbose_name_plural = 'イイネテーブル'
+
+
+class Chat(models.Model):
+    """チャット(部屋)テーブル"""
+    chatroom_id = models.UUIDField(verbose_name='チャットルームID', primary_key=True, default=uuid.uuid4, editable=False)
+
+    post_id = models.ForeignKey('Post', verbose_name='投稿ID', on_delete=models.CASCADE)
+    user1_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID_議員', on_delete=models.SET_NULL, null=True, related_name='assembly_user')
+    user2_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID_一般', on_delete=models.SET_NULL, null=True, related_name='normal_user')
+    created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'チャット(部屋)テーブル'
+
+    def __str__(self):
+        return str(self.post_id)
+
+
+class ChatDetail(models.Model):
+    """チャット(詳細)テーブル"""
+    chat_id = models.UUIDField(verbose_name='チャット詳細ID', primary_key=True, default=uuid.uuid4, editable=False)
+
+    chatroom_id = models.ForeignKey('Chat', verbose_name='チャットルームID', on_delete=models.CASCADE)
+    user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.SET_NULL, null=True)
+    content = models.TextField(verbose_name='投稿内容', blank=False)
+    created_at = models.DateTimeField(verbose_name='投稿日時', auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'チャット(詳細)テーブル'
+
+    def __str__(self):
+        return str(self.chatroom_id)
+
+
+class PostReport(models.Model):
+    """投稿通報テーブル"""
+    post_id = models.ForeignKey('Post', verbose_name='投稿ID', on_delete=models.PROTECT)
+    user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.PROTECT)
+    report_reason = models.TextField(verbose_name='通報理由', blank=False)
+    created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = '投稿通報テーブル'
+
+    def __str__(self):
+        return str(self.post_id)
+
+
+class ChatReport(models.Model):
+    """チャット通報テーブル"""
+    chat_id = models.ForeignKey('ChatDetail', verbose_name='チャット詳細ID', on_delete=models.PROTECT)
+    user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.PROTECT)
+    report_reason = models.TextField(verbose_name='通報理由', blank=False)
+    created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'チャット通報テーブル'
+
+    def __str__(self):
+        return str(self.chat_id)
+
+
+
+class CommentReport(models.Model):
+    """コメント通報テーブル"""
+    comment_id = models.ForeignKey('Comment', verbose_name='コメントID', on_delete=models.PROTECT)
+    user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.PROTECT)
+    report_reason = models.TextField(verbose_name='通報理由', blank=False)
+    created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'コメント通報テーブル'
+
+    def __str__(self):
+        return str(self.comment_id)
+
+
+class Checked(models.Model):
+    """既読テーブル"""
+    post_id = models.ForeignKey('Post', verbose_name='投稿ID', on_delete=models.PROTECT)
+    user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.PROTECT)
+    created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = '既読テーブル'
