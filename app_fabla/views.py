@@ -24,3 +24,8 @@ class PostDetail(generic.DetailView):
 class CongressmanListView(generic.ListView):
     template_name = "congressman_list.html"
     model = CustomUser
+
+class CongDetail(generic.CongdetailView):
+    template_name='cong_detail.html'
+    model = Post
+    pk_url_kwarg='id'
