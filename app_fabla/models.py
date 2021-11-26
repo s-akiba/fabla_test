@@ -15,7 +15,7 @@ class Post(models.Model):
     category_no = models.ForeignKey('Category', verbose_name='カテゴリ番号', on_delete=models.SET_NULL, null=True)
     title = models.CharField(verbose_name='タイトル', max_length=30)
     content = models.TextField(verbose_name='内容', blank=False)
-    photo = models.ImageField(verbose_name='写真', blank=True, null=True)
+    photo = models.ImageField(verbose_name='写真', blank=True)
     hide_reason = models.TextField(verbose_name='伏字化理由', blank=True)
     created_at = models.DateTimeField(verbose_name='作成日時', auto_now_add=True)
 
@@ -39,7 +39,7 @@ class Comment(models.Model):
         verbose_name_plural = 'コメントテーブル'
 
     def __str__(self):
-        return self.comment_id
+        return str(self.comment_id)
 
 
 class Category(models.Model):
@@ -76,7 +76,7 @@ class Chat(models.Model):
         verbose_name_plural = 'チャット(部屋)テーブル'
 
     def __str__(self):
-        return self.post_id
+        return str(self.post_id)
 
 
 class ChatDetail(models.Model):
@@ -92,7 +92,7 @@ class ChatDetail(models.Model):
         verbose_name_plural = 'チャット(詳細)テーブル'
 
     def __str__(self):
-        return self.chatroom_id
+        return str(self.chatroom_id)
 
 
 class PostReport(models.Model):
@@ -106,7 +106,7 @@ class PostReport(models.Model):
         verbose_name_plural = '投稿通報テーブル'
 
     def __str__(self):
-        return self.post_id
+        return str(self.post_id)
 
 
 class ChatReport(models.Model):
@@ -120,7 +120,7 @@ class ChatReport(models.Model):
         verbose_name_plural = 'チャット通報テーブル'
 
     def __str__(self):
-        return self.chat_id
+        return str(self.chat_id)
 
 
 
@@ -135,7 +135,7 @@ class CommentReport(models.Model):
         verbose_name_plural = 'コメント通報テーブル'
 
     def __str__(self):
-        return self.comment_id
+        return str(self.comment_id)
 
 
 class Checked(models.Model):
