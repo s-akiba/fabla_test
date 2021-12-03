@@ -63,3 +63,11 @@ class CongListView(generic.ListView):
 class profileDetail(generic.DetailView):
     template_name='profile.html'
     model = CustomUser
+
+class AdListView(generic.ListView):
+    template_name = "admin_list.html"
+    model = CustomUser
+    def get_queryset(self):
+        query_set = CustomUser.objects.get(is_staff = self.request.user.is_staff)
+        print(query_set)
+        return query_set
