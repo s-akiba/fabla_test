@@ -211,3 +211,11 @@ MEDIA_URL = '/media/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'user_name'
+
+ACCOUNT_FORMS = { "signup":"accounts.forms.SignupForm"}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+LOGIN_REDIRECT_URL = 'app_fabla:post_list'
