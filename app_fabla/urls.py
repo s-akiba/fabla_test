@@ -8,5 +8,6 @@ urlpatterns = [
     # 画面詳細へ
     path('post-detail/<uuid:pk>/',views.PostDetail.as_view(),name="post_detail"),
     path('congressman/',views.CongressmanListView.as_view(), name="congressman"),
-    path('cong-detail/<int:pk>/',views.CongDetail.as_view(), name="cong_detail"),
+    path('cong-list/',views.CongListView.as_view(), name="cong_list"),
+    # path('profile/<uuid:pk>/',views.profileDetail.as_view(), name="profile"),
 ]

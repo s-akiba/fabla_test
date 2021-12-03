@@ -24,8 +24,17 @@ class PostDetail(generic.DetailView):
 class CongressmanListView(generic.ListView):
     template_name = "congressman_list.html"
     model = CustomUser
+    def get_queryset(self):
+        query_set = CustomUser.objects.all().filter(assembly=True)
+        return query_set
 
-class CongDetail(generic.CongdetailView):
-    template_name='cong_detail.html'
-    model = Post
-    pk_url_kwarg='id'
+class CongListView(generic.ListView):
+    template_name='cong_list.html'
+    model = CustomUser
+    def get_queryset(self):
+        query_set = CustomUser.objects.all().filter(assembly=True)
+        return query_set
+
+# class profileDetail(generic.DetailView):
+#     template_name='profile.html'
+#     model = Post
