@@ -10,4 +10,5 @@ urlpatterns = [
     path('congressman/',views.CongressmanListView.as_view(), name="congressman"),
     path('cong-list/',views.CongListView.as_view(), name="cong_list"),
     # path('profile/<uuid:pk>/',views.profileDetail.as_view(), name="profile"),
+    path('fabla-create/', views.AppFablaCreateView.as_view(), name="fabla_create"),
 ]
