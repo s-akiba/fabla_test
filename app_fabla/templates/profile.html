@@ -5,13 +5,10 @@
 {% block contents %}
 
     <class="post-preview">
-        {% if user.is_superuser %}
-        {% else %}
         <h2>{{ customuser.user_name }}
             {{ customuser.photo }}<br>
             {{ customuser.bio }}
         </h2>
-        {% endif %}
     </div>
 
 {% endblock %}
