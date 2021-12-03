@@ -60,6 +60,6 @@ class CongListView(generic.ListView):
         query_set = CustomUser.objects.all().filter(assembly=True)
         return query_set
 
-# class profileDetail(generic.DetailView):
-#     template_name='profile.html'
-#     model = Post
+class profileDetail(generic.DetailView):
+    template_name='profile.html'
+    model = CustomUser
