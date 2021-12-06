@@ -10,8 +10,7 @@ from accounts.models import CustomUser
 class Post(models.Model):
     """投稿テーブル"""
     post_id = models.UUIDField(verbose_name='投稿ID', primary_key=True, default=uuid.uuid4, editable=False)
-
-    user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.CASCADE)
     category_no = models.ForeignKey('Category', verbose_name='カテゴリ番号', on_delete=models.SET_NULL, null=True)
     title = models.CharField(verbose_name='タイトル', max_length=30)
     content = models.TextField(verbose_name='内容', blank=False)
@@ -22,14 +21,13 @@ class Post(models.Model):
     class Meta:
         verbose_name_plural = '投稿テーブル'
 
-    def __str__(self):
+    def __str__(self): 
         return self.title
 
 
 class Comment(models.Model):
     """コメントテーブル"""
     comment_id = models.UUIDField(verbose_name='コメントID', primary_key=True, default=uuid.uuid4, editable=False)
-
     post_id = models.ForeignKey('Post', verbose_name='投稿ID', on_delete=models.CASCADE)
     user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.CASCADE)
     content = models.TextField(verbose_name='コメント内容', blank=False)
