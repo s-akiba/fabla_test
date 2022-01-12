@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block contents %}
+
+{% for fabla in object_list %}
+    <div class="list-preview">
+        <a href="#">
+            <h1 class="list-bio">
+                {{ fabla.user_name }}
+                {{ fabla.political_faction }}
+                {{ fabla.photo}}
+            </h1>
+        </a>
+    </div>
+{% endfor %}
+
+{% endblock %}

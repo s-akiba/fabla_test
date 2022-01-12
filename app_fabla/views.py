@@ -10,6 +10,8 @@ from .models import Post
 
 from .models import *
 
+from accounts.models import CustomUser
+
 class IndexView(generic.TemplateView):
     template_name = "index.html"
 
@@ -43,3 +45,29 @@ class PostListView(generic.ListView):
 class PostDetail(generic.DetailView):
     template_name = "post_detail.html"
     model = Post
+
+class CongressmanListView(generic.ListView):
+    template_name = "congressman_list.html"
+    model = CustomUser
+    def get_queryset(self):
+        query_set = CustomUser.objects.all().filter(assembly=True)
+        return query_set
+
+class CongListView(generic.ListView):
+    template_name='cong_list.html'
+    model = CustomUser
+    def get_queryset(self):
+        query_set = CustomUser.objects.all().filter(assembly=True)
+        return query_set
+
+class profileDetail(generic.DetailView):
+    template_name='profile.html'
+    model = CustomUser
+
+class AdListView(generic.ListView):
+    template_name = "admin_list.html"
+    model = CustomUser
+    def get_queryset(self):
+        query_set = CustomUser.objects.get(is_staff = self.request.user.is_staff)
+        print(query_set)
+        return query_set
