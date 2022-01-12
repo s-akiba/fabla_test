@@ -2,7 +2,6 @@ from django.views import generic
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-<<<<<<< Updated upstream
 from django.http import HttpResponse
 
 from .forms import AppFablaCreateForm,ReportForm
@@ -10,11 +9,9 @@ from .models import Post
 
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
-=======
 from django.db.models import Q
 
 from .forms import AppFablaCreateForm
->>>>>>> Stashed changes
 
 from .models import *
 
@@ -51,8 +48,6 @@ class PostListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return super().get_queryset()
 
-<<<<<<< Updated upstream
-=======
 # 画面詳細
 
 
@@ -60,7 +55,6 @@ class PostDetail(LoginRequiredMixin, generic.DetailView):
     template_name = "post_detail.html"
     model = Post
 
->>>>>>> Stashed changes
 class CongressmanListView(generic.ListView):
     template_name = "congressman_list.html"
     model = CustomUser
