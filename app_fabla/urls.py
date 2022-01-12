@@ -16,4 +16,9 @@ urlpatterns = [
     path('post-report/<str:pk>/',views.ReportFormView.as_view(),name="post_report"),
 
     path('like', views.LikeView, name='like'),
+    path('fabla-create/', views.AppFablaCreateView.as_view(), name="fabla_create"),
+    # path('chat-post-list/',views.ChatPostListView.as_view(), name="chat_post_list"),
+    # path('chat-user-list/',views.ChatUserListView.as_view(), name="chat_user_list"),
+    # path('chat-text/<str:pk>/',views.ChatListView.as_view(), name="chat_text"),
+    # path('chat/<str:pk>/', views.ChatView.as_view(), name="chat"),
 ]

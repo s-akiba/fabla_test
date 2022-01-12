@@ -1,8 +1,8 @@
-
 from django.views import generic
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+<<<<<<< Updated upstream
 from django.http import HttpResponse
 
 from .forms import AppFablaCreateForm,ReportForm
@@ -10,6 +10,11 @@ from .models import Post
 
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
+=======
+from django.db.models import Q
+
+from .forms import AppFablaCreateForm
+>>>>>>> Stashed changes
 
 from .models import *
 
@@ -18,6 +23,7 @@ from accounts.models import CustomUser
 class IndexView(generic.TemplateView):
     template_name = "index.html"
 
+
 class AppFablaCreateView(LoginRequiredMixin, generic.CreateView):
     model = Post
     template_name = 'fabla_create.html'
@@ -25,9 +31,9 @@ class AppFablaCreateView(LoginRequiredMixin, generic.CreateView):
     success_url = reverse_lazy('app_fabla:index')
 
     def form_valid(self, form):
-        appfabla = form.save(commit=False)
-        appfabla.user = self.request.user
-        appfabla.save()
+        post = form.save(commit=False)
+        post.user = self.request.user
+        post.save()
         messages.success(self.request, '日記を作成しました。')
         return super().form_valid(form)
 
@@ -37,13 +43,24 @@ class AppFablaCreateView(LoginRequiredMixin, generic.CreateView):
 
 # Create your views here.
 
-class PostListView(generic.ListView):
+
+class PostListView(LoginRequiredMixin, generic.ListView):
     model = Post
     template_name = 'post_list.html'
 
     def get_queryset(self):
         return super().get_queryset()
 
+<<<<<<< Updated upstream
+=======
+# 画面詳細
+
+
+class PostDetail(LoginRequiredMixin, generic.DetailView):
+    template_name = "post_detail.html"
+    model = Post
+
+>>>>>>> Stashed changes
 class CongressmanListView(generic.ListView):
     template_name = "congressman_list.html"
     model = CustomUser
@@ -158,3 +175,50 @@ def CommentView(request):
     print("＝＝＝＝＝＝f＝＝＝comment＝＝a＝＝a＝a＝＝＝coment＝＝＝")
     return HttpResponse('')
     
+    # def get_context_data(self, **kwargs):
+    #     #post_class_post_id = Post.objects.filter(pk=self.kwargs['pk'])
+    #     #post_id = list(post_class_post_id.values())
+    #     #post_id_id = post_id[0]['post_id']
+    #     # print(post_id_id)
+    #     p_id = Post.objects.get(post_id=self.kwargs['pk'])
+    #     u_id = CustomUser.objects.get(user_id=self.request.user.user_id)
+    #     u_assembly = CustomUser.objects.get(assembly=self.request.user.assembly)
+    #     if u_assembly:
+    #         Checked.objects.update_or_create(post_id=p_id, user_id=u_id)
+    #     return super().get_context_data()
+
+# class ChatPostListView(LoginRequiredMixin, generic.ListView):
+#     model = Chat
+#     template_name = 'chat_post_list.html'
+#     def get_queryset(self):
+#         u_id = CustomUser.objects.get(user_id=self.request.user.user_id)
+ 
+#         if u_id:
+#             object_list = Chat.objects.filter(
+#                 Q(user2_id=u_id))
+
+#         return object_list
+
+# class ChatUserListView(LoginRequiredMixin, generic.ListView):
+#     model = ChatDetail
+#     template_name = 'chat_user_list.html'
+
+#     def get_queryset(self):
+#         return super().get_queryset()
+
+# class ChatListView(LoginRequiredMixin, generic.ListView):
+#     model = ChatDetail
+#     template_name = "chat_text.html"
+#     def get_queryset(self):
+#         r_id = Chat.objects.get(chatroom_id=self.kwargs['pk'])
+#         if r_id:
+#             object_list = ChatDetail.objects.filter(
+#                 Q(chatroom_id=r_id))
+#         return object_list
+
+# class ChatView(LoginRequiredMixin, generic.ListView):
+#     model = ChatDetail
+#     template_name = "chat.html"
+#     def get_set(self):
+#         r_id = self.kwargs['pk']
+#         return r_id
