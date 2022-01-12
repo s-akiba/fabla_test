@@ -144,7 +144,7 @@ class ReportFormView(generic.FormView):
         postreport.post_id = Post.objects.get(post_id=self.kwargs['pk'])
         print("==============おめでとう================",postreport,"=============================")
         postreport.user_id = self.request.user
-        print("==============やったね================",postreport,"=============================")
+        print("==============やったね=======i=========",postreport,"=============================")
         postreport.save()
         messages.success(self.request,'通報完了')
         return super().form_valid(form)
