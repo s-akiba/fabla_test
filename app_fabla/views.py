@@ -155,5 +155,5 @@ class ReportFormView(generic.FormView):
 
 # コメントの処理
 def CommentView(request):
-    print("＝＝＝＝＝＝＝＝＝comment＝＝＝＝＝＝＝＝coment＝＝＝")
+    print("＝＝＝＝＝＝＝＝＝comment＝＝＝＝a＝＝＝＝coment＝＝＝")
     return HttpResponse('')
