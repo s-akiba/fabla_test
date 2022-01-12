@@ -157,3 +157,4 @@ class ReportFormView(generic.FormView):
 def CommentView(request):
     print("＝＝＝＝＝＝f＝＝＝comment＝＝a＝＝a＝a＝＝＝coment＝＝＝")
     return HttpResponse('')
+    
