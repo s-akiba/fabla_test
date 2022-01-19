@@ -14,11 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.staticfiles.urls import static
 from django.urls import path
 from django.urls.conf import include
+
+from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('app_fabla.urls')),
-    path('accounts/',include('allauth.urls')),
+    path('accounts/', include('allauth.urls')),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
