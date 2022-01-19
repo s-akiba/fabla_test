@@ -19,14 +19,41 @@
                 {% csrf_token %}
                 </form>                   
             </div>
-            
 
+            <!-- 以下コメント機能 -->
+            
+                {% for comment in comment_list %}
+                    <p>{{ comment.user_id }}{{ comment.content }}</p>
+                    <p></p>
+                {% endfor %}
+                
+                <table>
+                    <tr>
+                        <td id="posts"></td>
+                        <td  id="posts_name"></td>
+                    </tr>
+                    <div>
+                    </div>
+                </table>
+                
+                
+                
+    
+            
+            <form method="post">
+                <textarea id="comment" name="comment" rows="1" cols="40" required></textarea>
+                <input type="button"  name="{{post.post_id}}" id="comment_content" value="送信">
+                {% csrf_token %}
+            </form>
+            
+            <!-- 以上コメント機能 -->
         </div>
         <hr>
     </div>
 </div>
-<!-- いいね機能に関する記述 -->
+ 
 <script type="text/javascript">
+    // <!-- いいね機能に関する記述 -->
     $(document).ready(function(event){
         $(document).on('click', '#like', function(event){
             event.preventDefault();
@@ -52,7 +79,33 @@
         });
     });
 </script>
-<!-- ここまでがいいね機能に関する記述 -->
+     <!-- ここまでがいいね機能に関する記述 -->
+
+    <script type="text/javascript">
+    // 以下コメントに関する記述
+    $('#comment_content').on('click', function(){
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'app_fabla:comment' %}",
+            data: {
+                    'comment': $("#comment").val(),
+                    'post_id': $(this).attr('name'),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            dataType: 'json',
+        }).done( response => {
+                const p = $('<p>', {text: response.user_name});
+                $('#posts').append(p);
+
+
+                // <p>はろー</p>のような要素を作成し、それを記事一覧エリアに追加し、入力欄をクリアする。
+                const x = $('<p>', {text: response.comment});
+                $('#posts').append(x);
+                $('#comment').val('');
+            });
+    });
+    // 以上コメントに関する記述
+</script>
+
 
 
 

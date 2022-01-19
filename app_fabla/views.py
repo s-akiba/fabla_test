@@ -1,3 +1,4 @@
+from tabnanny import check
 from django.views import generic
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -98,7 +99,6 @@ def LikeView(request):
         else:
             like.create(post_id=post, user_id=user)
             liked = True
-    
         context={
             'article_id': post.post_id,
             'liked': liked,
@@ -112,36 +112,70 @@ def LikeView(request):
 class PostDetail(generic.DetailView):
     template_name = "post_detail.html"
     model = Post
+    # def get_context_data(self, **kwargs):
+    #     print("ArticlesView実行されました")
+    #     post = Post.objects.get(post_id=self.kwargs['pk'])
+    #     # liked_listというものを用意し、閲覧しているユーザー（request.userで取得）が過去にどの記事をいいねしたかを格納しておく。
+    #     liked_list = []
+    #     # good_setでarticleに紐づく全てのいいねを取得し、閲覧しているユーザーでフィルターをかけている。
+    #     liked = post.good_set.filter(user_id=self.request.user)
+    #     if liked.exists():
+    #         liked_list.append(post.post_id)
+    #         print(post.post_id)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        # ポストモデル
-        p_id = Post.objects.get(post_id=self.kwargs['pk'])
-        u_id = CustomUser.objects.get(user_id=self.request.user.user_id)
-        ic_photo = u_id
-        print(ic_photo,"これか")
-        user = self.request.user
-        print(user)
-        if user.assembly == True:
-            context['check'] = Checked.objects.update_or_create(post_id = p_id,user_id = u_id)
-        return(context)
+    #     context = {
+    #         'post': post,
+    #         'liked_list': liked_list,
+    #     }
+    #     return(context)
 
-    def get_context_data(self, **kwargs):
-        print("ArticlesView実行されました")
-        post = Post.objects.get(post_id=self.kwargs['pk'])
-        # liked_listというものを用意し、閲覧しているユーザー（request.userで取得）が過去にどの記事をいいねしたかを格納しておく。
-        liked_list = []
-        # good_setでarticleに紐づく全てのいいねを取得し、閲覧しているユーザーでフィルターをかけている。
-        liked = post.good_set.filter(user_id=self.request.user)
-        if liked.exists():
-            liked_list.append(post.post_id)
-            print(post.post_id)
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data()
+    #     # ポストモデル
+    #     p_id = Post.objects.get(post_id=self.kwargs['pk'])
+    #     print("ddddddddddddddddd",p_id,"dddddddddddddddddddd")
 
-        context = {
-            'post': post,
-            'liked_list': liked_list,
+    #     po_check = p_id.checked_set.filter(post_id=p_id)
+        
+    #     print("関係してるデータベースは",po_check[0].user_id)
+    #     photo = CustomUser.objects.get(user_id = po_check[2].user_id)
+    #     print("関係のやつ２",photo.icon_photo)
+
+    #     checked_list = []
+
+    #     for i in po_check:
+    #         print()
+            
+
+    #     u_id = CustomUser.objects.get(user_id=self.request.user.user_id)
+    #     user = self.request.user
+
+        # one = p_id.checked_set.filter(post_id=p_id,user_id=user)
+        # print("aaaaaaaaaaaaaaaaaaaa",one,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        # print(user)
+        # if user.assembly == True:
+        #    context['check'] = Checked.objects.update_or_create(post_id = p_id,user_id = u_id)
+        # return(context)
+
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super().get_context_data(*args, **kwargs)
+    #     p_id = Post.objects.get(post_id=self.kwargs['pk'])
+    #     context['comment_list'] = Comment.objects.filter(post_id = p_id,)
+    #     return context
+
+# コメントの処理
+def CommentView(request):
+    if request.method =="POST":
+        comment = request.POST.get('comment')
+        user_id=request.user
+        post = get_object_or_404(Post, pk=request.POST.get('post_id'))
+        print("==============22222=============",post,"==================================")
+        comment2 = Comment.objects.create(post_id=post,user_id=user_id,content=comment)
+        d = {
+            'comment': comment2.content,
+            'user_name': str(comment2.user_id),
         }
-        return(context)
+        return JsonResponse(d)
 
 class ReportFormView(generic.FormView):
     model = PostReport
@@ -149,6 +183,7 @@ class ReportFormView(generic.FormView):
     form_class = ReportForm
     def get_success_url(self):
         return reverse_lazy('app_fabla:post_detail',kwargs={'pk':self.kwargs['pk']})
+    
 
     def form_valid(self,form):
         postreport = form.save(commit=False)
@@ -159,60 +194,10 @@ class ReportFormView(generic.FormView):
         postreport.save()
         messages.success(self.request,'通報完了')
         return super().form_valid(form)
+    
+    
+
 
     def form_invalid(self,form):
         messages.error(self.request,'通報の送信に失敗しました')
         return super().form_invalid(form)
-
-# コメントの処理
-def CommentView(request):
-    print("＝＝＝＝＝＝f＝＝＝comment＝＝a＝＝a＝a＝＝＝coment＝＝＝")
-    return HttpResponse('')
-    
-    # def get_context_data(self, **kwargs):
-    #     #post_class_post_id = Post.objects.filter(pk=self.kwargs['pk'])
-    #     #post_id = list(post_class_post_id.values())
-    #     #post_id_id = post_id[0]['post_id']
-    #     # print(post_id_id)
-    #     p_id = Post.objects.get(post_id=self.kwargs['pk'])
-    #     u_id = CustomUser.objects.get(user_id=self.request.user.user_id)
-    #     u_assembly = CustomUser.objects.get(assembly=self.request.user.assembly)
-    #     if u_assembly:
-    #         Checked.objects.update_or_create(post_id=p_id, user_id=u_id)
-    #     return super().get_context_data()
-
-# class ChatPostListView(LoginRequiredMixin, generic.ListView):
-#     model = Chat
-#     template_name = 'chat_post_list.html'
-#     def get_queryset(self):
-#         u_id = CustomUser.objects.get(user_id=self.request.user.user_id)
- 
-#         if u_id:
-#             object_list = Chat.objects.filter(
-#                 Q(user2_id=u_id))
-
-#         return object_list
-
-# class ChatUserListView(LoginRequiredMixin, generic.ListView):
-#     model = ChatDetail
-#     template_name = 'chat_user_list.html'
-
-#     def get_queryset(self):
-#         return super().get_queryset()
-
-# class ChatListView(LoginRequiredMixin, generic.ListView):
-#     model = ChatDetail
-#     template_name = "chat_text.html"
-#     def get_queryset(self):
-#         r_id = Chat.objects.get(chatroom_id=self.kwargs['pk'])
-#         if r_id:
-#             object_list = ChatDetail.objects.filter(
-#                 Q(chatroom_id=r_id))
-#         return object_list
-
-# class ChatView(LoginRequiredMixin, generic.ListView):
-#     model = ChatDetail
-#     template_name = "chat.html"
-#     def get_set(self):
-#         r_id = self.kwargs['pk']
-#         return r_id
