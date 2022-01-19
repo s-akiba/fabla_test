@@ -2,128 +2,144 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <!-- タイトル -->
-        <title>{% block title %}{% endblock %}</title>
-        
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-        <meta charset="utf-8">
-        
 
-        <script src="{% static 'vendor/jquery/jquery-1.11.3.min.js' %}"></script>
-        <script src="{% static 'vendor/bootstrap/bootstrap.js' %}"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<head>
+    <!-- タイトル -->
+    <title>{% block title %}{% endblock %}</title>
+
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
 
 
-        <script>
-            $(document).ready(function() {
-                $('.drawer').drawer();
-            });
-        </script>
+    <script src="{% static 'vendor/jquery/jquery-1.11.3.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/bootstrap.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-        <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
-        <link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/css/drawer.min.css" rel="stylesheet" >
-        <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
-        <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
-        <style type="text/css">
+
+    <script>
+        $(document).ready(function () {
+            $('.drawer').drawer();
+        });
+    </script>
+
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
+    <link href="{% static 'css/mystyle.css' %}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/css/drawer.min.css" rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+
+    <style type="text/css">
         body {
             margin-top: 64px;
         }
+
         img {
             max-width: 100%;
             height: auto;
         }
+
         .drawer-hamburger {
             z-index: 9998;
-            padding:20px;
+            padding: 20px;
         }
+
         .drawer-overlay {
             z-index: 9997;
         }
+
         .drawer-nav {
             z-index: 9999;
         }
+
         .drawer-menu li {
             padding: 10px;
         }
+
         .navbar-default {
             background: #fff;
         }
+
         .navbar-header {
             text-align: center;
-            float:none;
+            float: none;
         }
+
         .navbar-brand {
             float: none;
             height: 64px;
             padding: 20px 14px;
             display: inline-block;
         }
-        .navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
-                margin: 0;
+
+        .navbar>.container .navbar-brand,
+        .navbar>.container-fluid .navbar-brand {
+            margin: 0;
         }
-        </style>
-    </head>
+    </style>
+    {% block head %}{% endblock %}
+</head>
 
-    <body>
+<body>
 
-        <div class="entry-content">
-            <div class="drawer drawer--left">
-                <header> 
-                    <!-- スライドメニュー -->
-                    <button type="button" class="drawer-toggle drawer-hamburger">
-                        <span class="sr-only">toggle navigation</span>
-                        <span class="drawer-hamburger-icon"></span>
-                    </button>
-                    <nav class="drawer-nav">
-                        <ul class="drawer-menu">
-                            <li><a href="#">リンク1</a></li>
-                            <li><a href="#">リンク2</a></li>
-                            <li><a href="#">リンク5</a></li>
-                            <li class="drawer-dropdown"> <a href="#" data-toggle="dropdown">リンク9 プルダウン▼</a>
-                                <ul class="drawer-dropdown-menu">
-                                    <li><a href="#">リンク9-1</a></li>
-                                    <li><a href="#">リンク9-2</a></li>
-                                    <li><a href="#">リンク9-3</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">リンク10</a></li>
-                            <li><a href="#">リンク11</a></li>
-                        </ul>
-                    </nav>
-                    <!-- スライドメニュー　ここまで -->
-                    <!-- nav bar -->
-                    <nav class="navbar navbar-default navbar-fixed-top">
-                        <div class="container">
-                            <div class="navbar-header"> <a class="navbar-brand" href="{% url 'app_fabla:index' %}">Brand Name</a> </div>
-                        </div>
-                    </nav>
-                    <!-- nav bar ここまで -->
-                </header>
-            </div>
-        </div><!-- .entry-content -->
-    
-        
+    <div class="entry-content">
+        <div class="drawer drawer--left">
+            <header>
+                <!-- スライドメニュー -->
+                <button type="button" class="drawer-toggle drawer-hamburger">
+                    <span class="sr-only">toggle navigation</span>
+                    <span class="drawer-hamburger-icon"></span>
+                </button>
+                <nav class="drawer-nav">
+                    <ul class="drawer-menu">
+                        <li class="drawer-dropdown"> <a data-toggle="dropdown">ランキング▼</a>
+                            <ul class="drawer-dropdown-menu">
+                                <li><a href="#">教育</a></li>
+                                <li><a href="#">道路</a></li>
+                                <li><a href="#">通信</a></li>
+                                <li><a href="#">その他</a></li>
+                            </ul>
+                        </li>
+                        <li class="drawer-dropdown"> <a data-toggle="dropdown">年代別▼</a>
+                            <ul class="drawer-dropdown-menu">
+                                <li><a href="#">10代</a></li>
+                                <li><a href="#">20代</a></li>
+                                <li><a href="#">30代</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">議員</a></li>
+                        <li><a href="#">アカウント</a></li>
+                    </ul>
+                </nav>
+                <!-- スライドメニュー　ここまで -->
+                <!-- nav bar -->
+                <nav class="navbar navbar-default navbar-fixed-top">
+                    <div class="container">
+                        <div class="navbar-header"> <a class="navbar-brand" href="{% url 'app_fabla:index' %}">Fabla</a> </div>
+                    </div>
+                </nav>
+                <!-- nav bar ここまで -->
+            </header>
+        </div>
+    </div><!-- .entry-content -->
 
-        {% block header %}{% endblock %}
 
-        {% block contents %}{% endblock %}
+    {% block header %}{% endblock %}
 
-        <button class="post_btn">投稿</button>
-    
-        <!-- Footer -->
-        <footer>
-            <div class="container-fluid text-center fixed-bottom">
-                <hr>
-                <p class="help-block">Copyright &#169; kishiken.com All rights reserved.</p>
-            </div>
-        </footer>
-        <!-- Footer ここまで -->
-        
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/js/drawer.min.js"></script>
+    {% block contents %}{% endblock %}
 
-    </body>
+    <!-- Footer -->
+    <footer class="py-5 bg-white">
+        <div class="container">
+            <p class="m-0 text-center text-black help-block">Copyright &copy; Fabla 2022</p>
+        </div>
+        <!-- /.container -->
+    </footer>
+    <!-- Footer ここまで -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/js/drawer.min.js"></script>
+
+</body>
 
 </html>
