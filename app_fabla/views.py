@@ -11,6 +11,7 @@ from .models import Post
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
 from django.db.models import Q
+from django.core import serializers
 
 from .forms import AppFablaCreateForm
 
@@ -104,7 +105,6 @@ def LikeView(request):
             'liked': liked,
             'count': post.good_set.count(),
         }
-
     if request.is_ajax():
         return JsonResponse(context)
 
