@@ -1,0 +1,137 @@
+.post {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* ---------------------------- */
+/* --- ハートアニメーション --- */
+/* ---------------------------- */
+@keyframes heartAnimation {
+  0% {
+    /* アイコンサイズをもとのより小さくする */
+    transform: scale(0.5);
+  }
+
+  10% {
+    transform: scale(0.7);
+  }
+
+  30% {
+    transform: scale(0.9);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  80% {
+    transform: scale(1.5);
+  }
+
+  100% {
+    /* もとのサイズに戻す */
+    transform: scale(1.0);
+  }
+}
+
+.LikesIcon-fa-heart {
+  font-size: 30px;
+}
+
+.LikesIcon-fa-heart.heart {
+  /* heartAnimationアニメーションを200ミリ秒かけて実行する */
+  animation: heartAnimation .2s;
+  /* アイコン色を黒から赤へ変更する */
+  color: #e2264d;
+}
+
+/* ボタン共通設定 */
+.btn04 {
+  /*線の基点とするためrelativeを指定*/
+  position: relative;
+  /*ボタンの形状*/
+  display: inline-block;
+  padding: 10px 30px;
+
+  color: #333;
+  border: 1px solid #ccc;
+  text-decoration: none;
+  outline: none;
+  /*はみ出す背景色を隠す*/
+  overflow: hidden;
+}
+
+/*hoverした際のボタンの形状*/
+.btn04:hover {
+  color: #ccc;
+  border-color: transparent;
+  /*色の変化を遅らせる*/
+  transition-delay: .6s;
+}
+
+/*線の設定*/
+.btn04 span {
+  display: block;
+  z-index: 2;
+}
+
+/*== 線から塗に変化（左から右） */
+
+/*線の設定*/
+.borderleft span::before,
+.borderleft span::after {
+  content: '';
+  /*絶対配置で線の位置を決める*/
+  position: absolute;
+  width: 0;
+  height: 1px;
+  /*線の形状*/
+  background: #333;
+  /*アニメーションの設定*/
+  transition: all .3s;
+}
+
+/*左上線*/
+.borderleft span::before {
+  left: 0;
+  top: 0;
+}
+
+/*左下線*/
+.borderleft span::after {
+  left: 0;
+  bottom: 0;
+}
+
+/*hoverをすると線が伸びる*/
+.borderleft:hover span::before,
+.borderleft:hover span::after {
+  width: 100%;
+}
+
+/*背景の設定*/
+.borderleft::before {
+  content: '';
+  /*絶対配置で線の位置を決める*/
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+  /*背景の形状*/
+  height: 100%;
+  width: 0;
+  background: #333;
+  /*アニメーションの設定*/
+  transition: all .3s;
+}
+
+/*hoverをすると背景が伸びる*/
+.borderleft:hover::before {
+  width: 100%;
+  /*0.4秒遅れてアニメーション*/
+  transition-delay: .4s;
+}
+
+a:hover {
+  text-decoration: none;
+}
