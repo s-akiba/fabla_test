@@ -11,7 +11,7 @@ class Post(models.Model):
     """投稿テーブル"""
     post_id = models.UUIDField(verbose_name='投稿ID', primary_key=True, default=uuid.uuid4, editable=False)
 
-    user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.CASCADE)
     category_no = models.ForeignKey('Category', verbose_name='カテゴリ番号', on_delete=models.SET_NULL, null=True)
     title = models.CharField(verbose_name='タイトル', max_length=30)
     content = models.TextField(verbose_name='内容', blank=False)
