@@ -23,7 +23,16 @@
         {% endif %}
         <p>{{ post.created_at }}</p>
         <div class="like-outer">
-            {% include 'like.html' %}
+            <form action="{% url 'app_fabla:like' %}" method="POST">
+                {% csrf_token %}
+                {% if post.post_id in liked_list %}
+                <p>成功</p>
+                    <button id="like" name="{{post.post_id}}"><i class="far fa-heart"></i></button>
+                {% else %}
+                    <button id="like" name="{{post.post_id}}"><i class="far fa-heart"></i></button>      
+                {% endif %}
+            </form>
+            <p name="{{post.post_id}}-count" class="count"> {{ post.good_set.count }} </p>
             <!-- <a class="btn btn-success mt-5 mb-3" href="{% url 'app_fabla:post_report' post.pk %}">通報</a> -->
             <div class="popup_content">
                 <label for="trigger" class="close_btn">×</label>
@@ -49,9 +58,13 @@
                     </div>
                 </table>
                 
-                
-                
-    
+                <p>この下に写真</p>
+                {% for checked in checked_list %}
+                    <!-- <p>{{ checked.icon_photo }}</p> -->
+                    <img src="{{ checked.icon_photo.url }}" alt="海の写真" title="空と海">
+                    <p></p>
+                {% endfor %}
+                <p>この上に写真</p>
             
             <form method="post">
                 <textarea id="comment" name="comment" rows="1" cols="40" required></textarea>
