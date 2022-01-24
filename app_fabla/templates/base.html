@@ -76,6 +76,27 @@
         .navbar>.container-fluid .navbar-brand {
             margin: 0;
         }
+
+        #fixed {
+            position: fixed;
+            /* 要素の位置を固定する */
+            top: 0;
+            /* 基準の位置を画面の一番上に指定する */
+            left: 0;
+            /* 基準の位置を画面の一番左に指定する */
+            margin: 0;
+            /* 要素の余白を０にする */
+            padding: 10px;
+            /* 要素内側の余白を指定する */
+            height: 30px;
+            /* 高さを指定する */
+            width: 100%;
+            /* 幅を指定する */
+            background: #326693;
+            /* 背景色を指定する */
+            color: white;
+            /* フォントの色を指定する */
+        }
     </style>
     {% block head %}{% endblock %}
 </head>
@@ -95,6 +116,7 @@
     <div class="entry-content">
         <div class="drawer drawer--left">
             <header>
+                {% if user.is_authenticated %}
                 <!-- スライドメニュー -->
                 <button type="button" class="drawer-toggle drawer-hamburger">
                     <span class="sr-only">toggle navigation</span>
@@ -121,31 +143,51 @@
                         <li><a href="#">アカウント</a></li>
                     </ul>
                 </nav>
+
+                {% endif %}
                 <!-- スライドメニュー　ここまで -->
                 <!-- nav bar -->
                 <nav class="navbar navbar-default navbar-fixed-top">
                     <div class="container">
-                        <div class="navbar-header"> <a class="navbar-brand" href="{% url 'app_fabla:index' %}">Fabla</a> </div>
+                        <div class="navbar-header"> <a class="navbar-brand" href="{% url 'app_fabla:index' %}">Fabla</a>
+                        <ul class='nav navbar-nav navbar-right'>
+                            {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'account_logout' %}">Log Out</a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
+                            </li>
+                            <li class="nav-item {% block active_login %}{% endblock %}">
+                                <a class="nav-link" href="{% url 'account_login' %}">Log In</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                        </div>
                     </div>
                 </nav>
+                    <a href="#" class="fixed btn04 borderleft pull-right"><span>投稿</span></a>
                 <!-- nav bar ここまで -->
             </header>
         </div>
     </div><!-- .entry-content -->
 
-
+    <div class="wrapper">
     {% block header %}{% endblock %}
 
     {% block contents %}{% endblock %}
+    </div>
 
     <!-- Footer -->
     <footer class="py-5 bg-white">
         <div class="container">
             <p class="m-0 text-center text-black help-block">Copyright &copy; Fabla 2022</p>
-        </div>
+        </div> -->
         <!-- /.container -->
     </footer>
-    <!-- Footer ここまで -->
+    <!-- Footer ここまで-->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/js/drawer.min.js"></script>
