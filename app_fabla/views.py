@@ -1,3 +1,4 @@
+import profile
 from tabnanny import check
 from django.views import generic
 from django.contrib import messages
@@ -74,6 +75,18 @@ class CongListView(generic.ListView):
 class profileDetail(generic.DetailView):
     template_name='profile.html'
     model = CustomUser
+
+class profileEdit(generic.UpdateView):
+    template_name='profile_edit.html'
+    model = CustomUser
+    fields = ('user_name', 'icon_photo', 'bio',)
+    success_url = reverse_lazy('app_fabla:post_list')
+
+    def form_valid(self, form):
+        profile = form.save(commit=False)
+        profile.updated_at = timezone.now()
+        profile.save()
+        return super().form_valid(form)
 
 class AdListView(generic.ListView):
     template_name = "admin_list.html"
@@ -195,9 +208,15 @@ class ReportFormView(generic.FormView):
         messages.success(self.request,'通報完了')
         return super().form_valid(form)
     
-    
-
-
     def form_invalid(self,form):
         messages.error(self.request,'通報の送信に失敗しました')
         return super().form_invalid(form)
+
+class HisPosListView(LoginRequiredMixin, generic.ListView):
+    model = Post
+    template_name = 'post_list.html'
+    def get_queryset(self):
+        user = self.request.user
+        hispost = Post.objects.filter(user_id=user)
+        print(hispost)
+        return hispost

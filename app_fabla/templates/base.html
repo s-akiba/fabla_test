@@ -82,6 +82,16 @@
 
 <body>
 
+    <div id="gnavi" class="collapse navbar-collapse">
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="{% url 'app_fabla:profile' request.user.pk %}">プロフィール</a></li>
+    </ul>
+    </div>
+    
+    {% block content %}
+    <!-- ここにページ毎のコンテンツを記述 -->
+    {% endblock %}
+
     <div class="entry-content">
         <div class="drawer drawer--left">
             <header>
