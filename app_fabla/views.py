@@ -9,16 +9,18 @@ from django.http import HttpResponse
 from .forms import AppFablaCreateForm,ReportForm
 from .models import Post
 
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import JsonResponse
 from django.db.models import Q
 from django.core import serializers
 
+from .forms import SignUpForm
 from .forms import AppFablaCreateForm
 
 from .models import *
 
 from accounts.models import CustomUser
+from django.utils import timezone
 
 class IndexView(generic.TemplateView):
     template_name = "index.html"
@@ -219,3 +221,20 @@ class HisPosListView(LoginRequiredMixin, generic.ListView):
         hispost = Post.objects.filter(user_id=user)
         print(hispost)
         return hispost
+
+class Signup(generic.CreateView):
+    template_name = 'user_form.html'
+    form_class = SignUpForm
+
+    def form_valid(self, form):
+        user = form.save() # formの情報を保存
+        return redirect('app_fabla:signup_done')
+
+    # データ送信
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["process_name"] = "Sign up"
+        return context
+
+class SignupDone(generic.TemplateView):
+    template_name = 'account/signup_done.html'
