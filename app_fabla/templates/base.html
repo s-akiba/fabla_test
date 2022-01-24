@@ -25,6 +25,7 @@
     <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
     <link href="{% static 'css/bootstrap-theme.css' %}" rel="stylesheet">
     <link href="{% static 'css/mystyle.css' %}" rel="stylesheet">
+    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/css/drawer.min.css" rel="stylesheet">
     <link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
@@ -123,11 +124,13 @@
         </div>
     </div><!-- .entry-content -->
 
-
+    
     {% block header %}{% endblock %}
 
     {% block contents %}{% endblock %}
-
+    <main></main>
+    
+    
     <!-- Footer -->
     <footer class="py-5 bg-white">
         <div class="container">
@@ -136,7 +139,6 @@
         <!-- /.container -->
     </footer>
     <!-- Footer ここまで -->
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/js/drawer.min.js"></script>
 

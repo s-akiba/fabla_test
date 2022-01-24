@@ -2,8 +2,10 @@
 {% load static %}
 {% block contents %}
 <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css" rel="stylesheet">
+<link href="{% static 'css/mystyle.css' %}" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js" type="text/javascript"></script>
+
 
 <div calss="articles-outer row container">
     <div class="post col-sm-8">
@@ -64,7 +66,7 @@
 
     </div>
 </div>
- 
+
 <script type="text/javascript">
     $(document).ready(function (event) {
         $(document).on('click', '#like', function (event) {
@@ -90,10 +92,10 @@
                     $(selector2).text(response.count);
                 }
             });
-        });
+        })
     });
 </script>
-     <!-- ここまでがいいね機能に関する記述 -->
+    <!-- ここまでがいいね機能に関する記述 -->
 
     <script type="text/javascript">
     // 以下コメントに関する記述

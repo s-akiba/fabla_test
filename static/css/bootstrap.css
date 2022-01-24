@@ -10,7 +10,9 @@ html {
       -ms-text-size-adjust: 100%;
 }
 body {
-  margin: 0;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 article,
 aside,
@@ -5483,12 +5485,15 @@ button.list-group-item-danger.active:focus {
 .panel-title > .small > a {
   color: inherit;
 }
+
+
 .panel-footer {
   padding: 10px 15px;
   background-color: #f5f5f5;
   border-top: 1px solid #ddd;
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
+  
 }
 .panel > .list-group,
 .panel > .panel-collapse > .list-group {
@@ -6758,11 +6763,3 @@ button.close {
   }
 }
 /*# sourceMappingURL=bootstrap.css.map */
-
-.fixed-bottom {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1030;
-}

@@ -135,3 +135,15 @@
 a:hover {
   text-decoration: none;
 }
+
+body{
+  display: flex;
+  min-height: 100vh;
+flex-direction: column;
+}
+
+
+footer{
+  position: absolute;/*←絶対位置*/
+  bottom: 0; /*下に固定*/
+}
