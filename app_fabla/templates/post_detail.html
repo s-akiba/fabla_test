@@ -60,7 +60,7 @@
                 
                 {% for checked in checked_list %}
                     <!-- <p>{{ checked.icon_photo }}</p> -->
-                    <img src="{{ checked.icon_photo.url }}" alt="海の写真" title="空と海">
+                    <img src="{{ checked.icon_photo.url }}" >
                     <p></p>
                 {% endfor %}
            
@@ -132,7 +132,7 @@
     });
     // 以上コメントに関する記述
 </script>
-
+{% endblock %}
 {% block header %}
 
 {{object.title}}
