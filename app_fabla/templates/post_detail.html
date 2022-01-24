@@ -23,7 +23,16 @@
         {% endif %}
         <p>{{ post.created_at }}</p>
         <div class="like-outer">
-            {% include 'like.html' %}
+            <form action="{% url 'app_fabla:like' %}" method="POST">
+                {% csrf_token %}
+                {% if post.post_id in liked_list %}
+                    <div id="like" name="{{post.post_id}}"><i class="fas fa-heart LikesIcon-fa-heart heart"></i></div>
+                {% else %}
+                    <div id="like" name="{{post.post_id}}"><i class="far fa-heart LikesIcon-fa-heart"></i></div>      
+                {% endif %}
+            </form>
+            <p name="{{post.post_id}}-count" class="count"> {{ post.good_set.count }} </p>
+            
             <!-- <a class="btn btn-success mt-5 mb-3" href="{% url 'app_fabla:post_report' post.pk %}">通報</a> -->
             <div class="popup_content">
                 <label for="trigger" class="close_btn">×</label>
@@ -49,22 +58,25 @@
                     </div>
                 </table>
                 
-                
-                
-    
-            
+                {% for checked in checked_list %}
+                    <!-- <p>{{ checked.icon_photo }}</p> -->
+                    <img src="{{ checked.icon_photo.url }}" alt="海の写真" title="空と海">
+                    <p></p>
+                {% endfor %}
+           
+
             <form method="post">
                 <textarea id="comment" name="comment" rows="1" cols="40" required></textarea>
-                <input type="button"  name="{{post.post_id}}" id="comment_content" value="送信">
+                <input type="button" name="{{post.post_id}}" id="comment_content" value="送信">
                 {% csrf_token %}
             </form>
-            
+
             <!-- 以上コメント機能 -->
         </div>
 
     </div>
 </div>
- 
+
 <script type="text/javascript">
     $(document).ready(function (event) {
         $(document).on('click', '#like', function (event) {
@@ -93,29 +105,30 @@
         });
     });
 </script>
-     <!-- ここまでがいいね機能に関する記述 -->
+<!-- ここまでがいいね機能に関する記述 -->
 
-    <script type="text/javascript">
+<script type="text/javascript">
     // 以下コメントに関する記述
     $('#comment_content').on('click', function(){
         $.ajax({
             type: 'POST',
             url: "{% url 'app_fabla:comment' %}",
             data: {
-                    'comment': $("#comment").val(),
-                    'post_id': $(this).attr('name'),
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                'comment': $("#comment").val(),
+                'post_id': $(this).attr('name'),
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
             dataType: 'json',
-        }).done( response => {
-                const p = $('<p>', {text: response.user_name});
-                $('#posts').append(p);
+        }).done(response => {
+            const p = $('<p>', { text: response.user_name });
+            $('#posts').append(p);
 
 
-                // <p>はろー</p>のような要素を作成し、それを記事一覧エリアに追加し、入力欄をクリアする。
-                const x = $('<p>', {text: response.comment});
-                $('#posts').append(x);
-                $('#comment').val('');
-            });
+            // <p>はろー</p>のような要素を作成し、それを記事一覧エリアに追加し、入力欄をクリアする。
+            const x = $('<p>', { text: response.comment });
+            $('#posts').append(x);
+            $('#comment').val('');
+        });
     });
     // 以上コメントに関する記述
 </script>
