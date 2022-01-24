@@ -15,9 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.contrib.staticfiles.urls import static
 from django.urls.conf import include
-from . import settings
-
 from . import settings
 
 urlpatterns = [
@@ -25,3 +24,4 @@ urlpatterns = [
     path('', include('app_fabla.urls')),
     path('accounts/',include('allauth.urls')),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
