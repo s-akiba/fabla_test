@@ -4,6 +4,13 @@
 
 {% block contents %}
 
+<link href="{% static 'css/postlist.css' %}" rel="stylesheet">
+
+<img class="poimg" src="{{ customuser.icon_photo.url }}">
+
+
+        <h2>{{ customuser.user_name }}<br>
+
     <class="post-preview">
         <h2>{{ customuser.user_name }}
             {{ customuser.icon_photo }}<br>
