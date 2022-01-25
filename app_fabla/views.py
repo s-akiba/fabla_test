@@ -219,3 +219,19 @@ class HisPosListView(LoginRequiredMixin, generic.ListView):
         hispost = Post.objects.filter(user_id=user)
         print(hispost)
         return hispost
+
+class Goodhistory(LoginRequiredMixin, generic.ListView):
+    template_name = "goodhistory.html"
+    model = Post
+    def get_context_data(self):
+        user = self.request.user
+        good_id = Good.objects.filter(user_id=user)
+        good_list = []
+        for i in good_id:
+            good_list.append(i.post_id)
+            print(good_list)
+        
+        context = {
+            'good_list':good_list
+        }
+        return(context)
