@@ -1,0 +1,24 @@
+<section>
+    <div class="container">
+        <div class="starter-template text-center py-5 px-3">
+            <div class="row">
+                <div class="my-div-style w-100">
+                    <div class="col-lg-8 col-md-10 mx-auto">
+
+                        {% for chatdetail in chatdetail_list %}
+                        <div class="post-preview">
+                            <p class="post-title">
+                                {{ chatdetail.user_id }}    {{ chatdetail.content }}<hr>
+                                {{ chatdetail.created_at }}
+                            </p>
+                        </div>
+                        <hr>
+                        {% empty %}
+                        <p>まだチャットがありません。</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
