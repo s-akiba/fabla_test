@@ -1,3 +1,4 @@
+from unicodedata import name
 from django.urls import path
 from . import views
 
@@ -10,14 +11,15 @@ urlpatterns = [
     path('congressman/',views.CongressmanListView.as_view(), name="congressman"),
     path('cong-list/',views.CongListView.as_view(), name="cong_list"),
     path('profile/<str:pk>/',views.profileDetail.as_view(), name="profile"),
+    path('profile-ed/<str:pk>/',views.profileEdit.as_view(), name="profile_edit"),
     path('fabla-create/',views.AppFablaCreateView.as_view(), name="fabla_create"),
     path('ad/',views.AdListView.as_view(), name="ad"),
     # 投稿通報
     path('post-report/<str:pk>/',views.ReportFormView.as_view(),name="post_report"),
-
     path('like', views.LikeView, name='like'),
     path('fabla-create/', views.AppFablaCreateView.as_view(), name="fabla_create"),
-    path('comment',views.CommentView,name="comment")
+    path('comment',views.CommentView,name="comment"),
+    path('hispost-list/',views.HisPosListView.as_view(),name="post_list"),
 ]
 
 

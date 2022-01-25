@@ -1,17 +1,18 @@
-{% load static %}
-<link href="{% static 'css/mystyle.css' %}" rel="stylesheet">
+{% extends 'base.html' %}
+
+
 {% block contents %}
 <form action="{% url 'app_fabla:like' %}" method="POST">
     {% csrf_token %}
     {% if post.post_id in liked_list %}
-    <div id="like" name="{{post.post_id}}" class="LikesIcon">
-        <i class="fas fa-heart LikesIcon-fa-heart heart"></i>
-    </div>
+        <button id="like" name="{{post.post_id}}"><i class="far fa-heart"></i></button>
     {% else %}
-    <div id="like" name="{{post.post_id}}" class="LikesIcon">
-        <i class="far fa-heart LikesIcon-fa-heart"></i>
-    </div>
+        <button id="like" name="{{post.post_id}}"><i class="far fa-heart"></i></button>      
     {% endif %}
 </form>
 <p name="{{post.post_id}}-count" class="count"> {{ post.good_set.count }} </p>
+
+
 {% endblock %}
+
+
