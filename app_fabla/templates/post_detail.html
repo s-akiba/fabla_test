@@ -60,6 +60,134 @@
                 
                 {% for checked in checked_list %}
                     <!-- <p>{{ checked.icon_photo }}</p> -->
+                    <img src="{{ checked.icon_photo.url }}" alt="海の写真" title="空と海">
+                    <p></p>
+                {% endfor %}
+           
+
+            <form method="post">
+                <textarea id="comment" name="comment" rows="1" cols="40" required></textarea>
+                <input type="button" name="{{post.post_id}}" id="comment_content" value="送信">
+                {% csrf_token %}
+            </form>
+
+            <!-- 以上コメント機能 -->
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function (event) {
+        $(document).on('click', '#like', function (event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'app_fabla:like' %}",
+                data: {
+                    'article_id': $(this).attr('name'),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (response) {
+                    selector = document.getElementsByName(response.article_id);
+                    if (response.liked) {
+                        $(selector).children("i").attr('class', 'fas fa-heart LikesIcon-fa-heart heart');
+                    }
+                    else {
+                        // 白抜きアイコンに戻す
+                        $(selector).children("i").attr('class', 'far fa-heart LikesIcon-fa-heart');
+                    }
+                    selector2 = document.getElementsByName(response.article_id + "-count");
+                    $(selector2).text(response.count);
+                }
+            });
+        });
+    });
+</script>
+<!-- ここまでがいいね機能に関する記述 -->
+
+<script type="text/javascript">
+    // 以下コメントに関する記述
+    $('#comment_content').on('click', function(){
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'app_fabla:comment' %}",
+            data: {
+                'comment': $("#comment").val(),
+                'post_id': $(this).attr('name'),
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+        }).done(response => {
+            const p = $('<p>', { text: response.user_name });
+            $('#posts').append(p);
+
+
+            // <p>はろー</p>のような要素を作成し、それを記事一覧エリアに追加し、入力欄をクリアする。
+            const x = $('<p>', { text: response.comment });
+            $('#posts').append(x);
+            $('#comment').val('');
+        });
+    });
+    // 以上コメントに関する記述
+</script>
+
+<div calss="articles-outer row container">
+    <div class="post col-sm-8">
+        <label>タイトル</label>
+        <p>{{ post.title }}</p>
+        <label>カテゴリー</label>
+        <p class="fa-border font-italic">{{ post.category_no }}</p>
+
+        <label>内容</label>
+        <blockquote>
+            <p>{{ post.content }}</p>
+        </blockquote>
+        {% if post.photo %}
+        <label>写真</label>
+        <a href="{{ post.photo.url }}" data-lightbox="group"><img src="{{ post.photo.url }}" width="400"
+                height="400" /></a>
+        {% endif %}
+        <p>{{ post.created_at }}</p>
+        <div class="like-outer">
+            <form action="{% url 'app_fabla:like' %}" method="POST">
+                {% csrf_token %}
+                {% if post.post_id in liked_list %}
+                    <div id="like" name="{{post.post_id}}"><i class="fas fa-heart LikesIcon-fa-heart heart"></i></div>
+                {% else %}
+                    <div id="like" name="{{post.post_id}}"><i class="far fa-heart LikesIcon-fa-heart"></i></div>      
+                {% endif %}
+            </form>
+            <p name="{{post.post_id}}-count" class="count"> {{ post.good_set.count }} </p>
+            
+            <!-- <a class="btn btn-success mt-5 mb-3" href="{% url 'app_fabla:post_report' post.pk %}">通報</a> -->
+            <div class="popup_content">
+                <label for="trigger" class="close_btn">×</label>
+                <form action="{% url 'app_fabla:post_report' post.pk %}" method="post">
+                    <button class="btn btn-outline-success float-right" type="submit" name="button">通報</button>
+                    {% csrf_token %}
+                </form>
+            </div>
+
+            <!-- 以下コメント機能 -->
+            
+                {% for comment in comment_list %}
+                    <p>{{ comment.user_id }}{{ comment.content }}</p>
+                    <p></p>
+                {% endfor %}
+                
+                <table>
+                    <tr>
+                        <td id="posts"></td>
+                        <td  id="posts_name"></td>
+                    </tr>
+                    <div>
+                    </div>
+                </table>
+                
+                {% for checked in checked_list %}
+                    <!-- <p>{{ checked.icon_photo }}</p> -->
                     <img src="{{ checked.icon_photo.url }}" >
                     <p></p>
                 {% endfor %}
