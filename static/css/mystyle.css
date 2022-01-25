@@ -135,15 +135,12 @@
 a:hover {
   text-decoration: none;
 }
-
-body{
+body, #wrapper{
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
-flex-direction: column;
 }
 
-
 footer{
-  position: absolute;/*←絶対位置*/
-  bottom: 0; /*下に固定*/
+  margin-top: auto;
 }
