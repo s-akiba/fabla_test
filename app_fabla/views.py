@@ -22,6 +22,8 @@ from .models import *
 from accounts.models import CustomUser
 from django.utils import timezone
 
+from django.utils import timezone
+
 class IndexView(generic.TemplateView):
     template_name = "index.html"
 
@@ -222,6 +224,7 @@ class HisPosListView(LoginRequiredMixin, generic.ListView):
         print(hispost)
         return hispost
 
+<<<<<<< HEAD
 class Signup(generic.CreateView):
     template_name = 'user_form.html'
     form_class = SignUpForm
@@ -240,3 +243,20 @@ class SignupDone(generic.TemplateView):
     template_name = 'sign_up_done.html'
     def get_success_url(self):
         return reverse_lazy('accounts:login')
+=======
+class Goodhistory(LoginRequiredMixin, generic.ListView):
+    template_name = "goodhistory.html"
+    model = Post
+    def get_context_data(self):
+        user = self.request.user
+        good_id = Good.objects.filter(user_id=user)
+        good_list = []
+        for i in good_id:
+            good_list.append(i.post_id)
+            print(good_list)
+        
+        context = {
+            'good_list':good_list
+        }
+        return(context)
+>>>>>>> 560b6e4477cadc2b6a53ea5eae9587f0f69d94ae

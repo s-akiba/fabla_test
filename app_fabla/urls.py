@@ -18,9 +18,15 @@ urlpatterns = [
     path('post-report/<str:pk>/',views.ReportFormView.as_view(),name="post_report"),
     path('like', views.LikeView, name='like'),
     path('comment',views.CommentView,name="comment"),
+<<<<<<< HEAD
     path('hispost-list/',views.HisPosListView.as_view(),name="his_post_list"),
     path('signup/', views.Signup.as_view(), name='signup'),
     path('signup_done/', views.SignupDone.as_view(), name='sign_up_done'),
+=======
+    path('hispost-list/',views.HisPosListView.as_view(),name="post_list"),
+    path('good-history/',views.Goodhistory.as_view(),name='good_history')
+
+>>>>>>> 560b6e4477cadc2b6a53ea5eae9587f0f69d94ae
 ]
 
 

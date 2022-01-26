@@ -4,14 +4,25 @@
 
 {% block contents %}
 
+<link href="{% static 'css/postlist.css' %}" rel="stylesheet">
+
+
+
+
+        <h2>{{ customuser.user_name }}<br>
+
     <class="post-preview">
         <h2>{{ customuser.user_name }}
-            {{ customuser.icon_photo }}<br>
             {{ customuser.bio }}
         </h2>
 
         <button><a href="{% url 'app_fabla:profile_edit' request.user.pk %}">編集</a></button>
+<<<<<<< HEAD
         <li><a href="{% url 'app_fabla:his_post_list' %}">投稿履歴</a></li>
+=======
+        <li><a href="{% url 'app_fabla:post_list' %}">投稿履歴</a></li>
+        <li><a href="{% url 'app_fabla:good_history' %}">いいね履歴</a></li>
+>>>>>>> 560b6e4477cadc2b6a53ea5eae9587f0f69d94ae
     </div>
 
 {% endblock %}
