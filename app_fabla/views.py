@@ -20,6 +20,8 @@ from .models import *
 
 from accounts.models import CustomUser
 
+from django.utils import timezone
+
 class IndexView(generic.TemplateView):
     template_name = "index.html"
 
