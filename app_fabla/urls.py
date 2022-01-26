@@ -17,9 +17,10 @@ urlpatterns = [
     # 投稿通報
     path('post-report/<str:pk>/',views.ReportFormView.as_view(),name="post_report"),
     path('like', views.LikeView, name='like'),
-    path('fabla-create/', views.AppFablaCreateView.as_view(), name="fabla_create"),
     path('comment',views.CommentView,name="comment"),
-    path('hispost-list/',views.HisPosListView.as_view(),name="post_list"),
+    path('hispost-list/',views.HisPosListView.as_view(),name="his_post_list"),
+    path('signup/', views.Signup.as_view(), name='signup'),
+    path('signup_done/', views.SignupDone.as_view(), name='sign_up_done'),
 ]
 
 

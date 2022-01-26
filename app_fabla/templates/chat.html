@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}議員と市民を繋ぐ|Fabla{% endblock %}
+
+{% block header %}
+<meta charset="utf-8">
+<title>Taru-Chat</title>
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+<script>
+function readMessage() {
+    $.ajax({
+        type: 'post',
+        url: "{% url 'app_fabla:chat_text' object_list.pk %}"
+        })
+    .then(
+        function (data) {
+            $('#content').html(data);
+        },
+        function () {
+            alert("読み込み失敗");
+        }
+    );
+}
+
+
+function writeMessage() {
+    $.ajax({
+        type: 'post',
+        url: '{% static "php/chat.php" %}',
+        data: {
+            'message' : $("#message").val()
+        }
+    })
+    .then(
+        function (data) {
+            readMessage();
+            $("#message").val('');
+        },
+        function () {
+            alert("書き込み失敗");
+        }
+    );
+}
+
+
+$(document).ready(function() {
+    readMessage();
+    setInterval('readMessage()', 3000);
+});</script>
+{% endblock %}
+
+{% block contents %}
+<p>たるチャットです。PHP/Javascript[jQuery/Ajax]で動いています</p>
+<div id="content" method="post" onsubmit="readMessage(); return false;">{% url 'app_fabla:chat_text' chat.pk %}</div>
+<form method="post" onsubmit="writeMessage(); return false;">
+    <input id="message" name="message" type="text" value="" />
+    <input type="button" value="送信" onclick="writeMessage()">
+</form>
+
+{% endblock %}
