@@ -20,6 +20,8 @@ urlpatterns = [
     path('fabla-create/', views.AppFablaCreateView.as_view(), name="fabla_create"),
     path('comment',views.CommentView,name="comment"),
     path('hispost-list/',views.HisPosListView.as_view(),name="post_list"),
+    path('good-history/',views.Goodhistory.as_view(),name='good_history')
+
 ]
 
 
