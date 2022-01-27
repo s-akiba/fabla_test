@@ -32,7 +32,7 @@ class AppFablaCreateView(LoginRequiredMixin, generic.CreateView):
 
     def form_valid(self, form):
         post = form.save(commit=False)
-        post.user = self.request.user
+        post.user_id = self.request.user_id
         post.save()
         messages.success(self.request, '日記を作成しました。')
         return super().form_valid(form)
@@ -168,7 +168,7 @@ class PostDetail(generic.DetailView):
         # 以上いいねの流れ========================================================================================================================
         # 以下コメントリスト返す流れ========================================================================================================================
         p_id_comment = Post.objects.get(post_id=self.kwargs['pk'])
-        context['comment_list'] = Comment.objects.filter(post_id = p_id_comment,)
+        context['comment_list'] = Comment.objects.filter(post_id = p_id_comment,).order_by('created_at').reverse()
         # 以上コメントリスト返す流れ========================================================================================================================
         return(context)
 
