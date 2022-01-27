@@ -102,6 +102,54 @@
 </head>
 
 <body>
+    {% if user.is_authenticated %}
+    <div class="entry-content">
+        <div class="drawer drawer--left">
+            <header>
+                <!-- スライドメニュー -->
+                <button type="button" class="drawer-toggle drawer-hamburger">
+                    <span class="sr-only">toggle navigation</span>
+                    <span class="drawer-hamburger-icon"></span>
+                </button>
+                <nav class="drawer-nav">
+                    <ul class="drawer-menu">
+                        <li class="drawer-dropdown"> <a data-toggle="dropdown">ランキング▼</a>
+                            <ul class="drawer-dropdown-menu">
+                                <li><a href="#">教育</a></li>
+                                <li><a href="#">道路</a></li>
+                                <li><a href="#">通信</a></li>
+                                <li><a href="#">その他</a></li>
+                            </ul>
+                        </li>
+                        <li class="drawer-dropdown"> <a data-toggle="dropdown">年代別▼</a>
+                            <ul class="drawer-dropdown-menu">
+                                <li><a href="#">10代</a></li>
+                                <li><a href="#">20代</a></li>
+                                <li><a href="#">30代</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">議員</a></li>
+                        <li><a href="#">アカウント</a></li>
+                    </ul>
+                </nav>
+                {% endif %}
+                <!-- スライドメニュー　ここまで -->
+                <!-- nav bar -->
+                <nav class="navbar navbar-default navbar-fixed-top">
+                    <div class="container">
+                        <div class="navbar-header"> <a class="navbar-brand" href="{% url 'app_fabla:index' %}">Fabla</a>
+                        <ul class='nav navbar-nav navbar-right'>
+                            {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'app_fabla:profile' request.user.pk %}">プロフィール</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'account_logout' %}">Log Out</a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
+                            {% endif %}
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         {% block content %}
         <!-- ここにページ毎のコンテンツを記述 -->
