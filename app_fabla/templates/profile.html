@@ -11,7 +11,8 @@
         </h2>
 
         <button><a href="{% url 'app_fabla:profile_edit' request.user.pk %}">編集</a></button>
-        <li><a href="{% url 'app_fabla:post_list' %}">投稿履歴</a></li>
+        <li><a href="{% url 'app_fabla:his_post_list' %}">投稿履歴</a></li>
+        <li><a href="{% url 'app_fabla:good_history' %}">いいね履歴</a></li>
     </div>
 
 {% endblock %}

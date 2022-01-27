@@ -4,7 +4,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js" type="text/javascript"></script>
-
 <div calss="articles-outer row container">
     <div class="post col-sm-8">
         <label>タイトル</label>
@@ -26,13 +25,12 @@
             <form action="{% url 'app_fabla:like' %}" method="POST">
                 {% csrf_token %}
                 {% if post.post_id in liked_list %}
-                    <div id="like" name="{{post.post_id}}"><i class="fas fa-heart LikesIcon-fa-heart heart"></i></div>
+                <div id="like" name="{{post.post_id}}"><i class="fas fa-heart LikesIcon-fa-heart heart"></i></div>
                 {% else %}
-                    <div id="like" name="{{post.post_id}}"><i class="far fa-heart LikesIcon-fa-heart"></i></div>      
+                <div id="like" name="{{post.post_id}}"><i class="far fa-heart LikesIcon-fa-heart"></i></div>
                 {% endif %}
             </form>
             <p name="{{post.post_id}}-count" class="count"> {{ post.good_set.count }} </p>
-            
             <!-- <a class="btn btn-success mt-5 mb-3" href="{% url 'app_fabla:post_report' post.pk %}">通報</a> -->
             <div class="popup_content">
                 <label for="trigger" class="close_btn">×</label>
@@ -41,43 +39,61 @@
                     {% csrf_token %}
                 </form>
             </div>
-
             <!-- 以下コメント機能 -->
-            
-                {% for comment in comment_list %}
-                    <p>{{ comment.user_id }}{{ comment.content }}</p>
-                    <p></p>
-                {% endfor %}
-                
-                <table>
-                    <tr>
-                        <td id="posts"></td>
-                        <td  id="posts_name"></td>
-                    </tr>
-                    <div>
-                    </div>
-                </table>
-                
-                {% for checked in checked_list %}
-                    <!-- <p>{{ checked.icon_photo }}</p> -->
-                    <img src="{{ checked.icon_photo.url }}" >
-                    <p></p>
-                {% endfor %}
-           
-
             <form method="post">
-                <textarea id="comment" name="comment" rows="1" cols="40" required></textarea>
-                <input type="button" name="{{post.post_id}}" id="comment_content" value="送信">
-                {% csrf_token %}
+                <div class="stuff textBox">
+                    <textarea id="textarea" class="text modal-open" type="textbox" placeholder="Comment" type="textbox"
+                        id="comment" name="comment" rows="1" cols="40" required
+                        onkeyup="this.setAttribute('value', this.value);" value=""></textarea>
+                    <label class="labelch">Comment</label>
+                </div>
+
+                <input class="carousel" type="button" name="{{post.post_id}}" id="comment_content" value="送信">
             </form>
+            <table class="carousel">
+                <tr>
+                    <td id="posts"></td>
+                    <td id="posts_name"></td>
+                </tr>
+                <div>
+                </div>
+            </table>
+
+            {% for comment in comment_list %}
+            <p>{{ comment.user_id }}{{ comment.content }}</p>
+            <p></p>
+            {% endfor %}
+
+
+
+            {% for checked in checked_list %}
+            <!-- <p>{{ checked.icon_photo }}</p> -->
+            <img src="{{ checked.icon_photo.url }}">
+            <p></p>
+            {% endfor %}
+
+            {% csrf_token %}
 
             <!-- 以上コメント機能 -->
         </div>
-
     </div>
 </div>
 
 <script type="text/javascript">
+    //textareaの要素を取得
+    let textarea = document.getElementById('textarea');
+    //textareaのデフォルトの要素の高さを取得
+    let clientHeight = textarea.clientHeight;
+
+    //textareaのinputイベント
+    textarea.addEventListener('input', () => {
+        //textareaの要素の高さを設定（rows属性で行を指定するなら「px」ではなく「auto」で良いかも！）
+        textarea.style.height = clientHeight + 'px';
+        //textareaの入力内容の高さを取得
+        let scrollHeight = textarea.scrollHeight;
+        //textareaの高さに入力内容の高さを設定
+        textarea.style.height = scrollHeight + 'px';
+    });
     $(document).ready(function (event) {
         $(document).on('click', '#like', function (event) {
             event.preventDefault();
@@ -109,7 +125,7 @@
 
 <script type="text/javascript">
     // 以下コメントに関する記述
-    $('#comment_content').on('click', function(){
+    $('#comment_content').on('click', function () {
         $.ajax({
             type: 'POST',
             url: "{% url 'app_fabla:comment' %}",
@@ -132,15 +148,5 @@
     });
     // 以上コメントに関する記述
 </script>
-{% endblock %}
-{% block header %}
-
-{{object.title}}
-{{object.category_no}}
-{{object.content}}
-{{object.photo}}
-{{object.created_at}}
-
-
 
 {% endblock %}

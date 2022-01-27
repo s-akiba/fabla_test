@@ -102,21 +102,10 @@
 </head>
 
 <body>
-
-    <div id="gnavi" class="collapse navbar-collapse">
-    <ul class="nav navbar-nav navbar-right">
-        <li><a href="{% url 'app_fabla:profile' request.user.pk %}">プロフィール</a></li>
-    </ul>
-    </div>
-    
-    {% block content %}
-    <!-- ここにページ毎のコンテンツを記述 -->
-    {% endblock %}
-
+    {% if user.is_authenticated %}
     <div class="entry-content">
         <div class="drawer drawer--left">
             <header>
-                {% if user.is_authenticated %}
                 <!-- スライドメニュー -->
                 <button type="button" class="drawer-toggle drawer-hamburger">
                     <span class="sr-only">toggle navigation</span>
@@ -143,7 +132,6 @@
                         <li><a href="#">アカウント</a></li>
                     </ul>
                 </nav>
-
                 {% endif %}
                 <!-- スライドメニュー　ここまで -->
                 <!-- nav bar -->
@@ -153,42 +141,98 @@
                         <ul class='nav navbar-nav navbar-right'>
                             {% if user.is_authenticated %}
                             <li class="nav-item">
+                                <a class="nav-link" href="{% url 'app_fabla:profile' request.user.pk %}">プロフィール</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{% url 'account_logout' %}">Log Out</a>
                             </li>
                             {% else %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
-                            </li>
-                            <li class="nav-item {% block active_login %}{% endblock %}">
-                                <a class="nav-link" href="{% url 'account_login' %}">Log In</a>
-                            </li>
                             {% endif %}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {% block content %}
+        <!-- ここにページ毎のコンテンツを記述 -->
+        {% endblock %}
+        {% if user.is_authenticated %}
+        <div class="entry-content">
+            <div class="drawer drawer--left">
+                <header>
+                    <!-- スライドメニュー -->
+                    <button type="button" class="drawer-toggle drawer-hamburger">
+                        <span class="sr-only">toggle navigation</span>
+                        <span class="drawer-hamburger-icon"></span>
+                    </button>
+                    <nav class="drawer-nav">
+                        <ul class="drawer-menu">
+                            <li class="drawer-dropdown"> <a data-toggle="dropdown">ランキング▼</a>
+                                <ul class="drawer-dropdown-menu">
+                                    <li><a href="#">教育</a></li>
+                                    <li><a href="#">道路</a></li>
+                                    <li><a href="#">通信</a></li>
+                                    <li><a href="#">その他</a></li>
+                                </ul>
+                            </li>
+                            <li class="drawer-dropdown"> <a data-toggle="dropdown">年代別▼</a>
+                                <ul class="drawer-dropdown-menu">
+                                    <li><a href="#">10代</a></li>
+                                    <li><a href="#">20代</a></li>
+                                    <li><a href="#">30代</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">議員</a></li>
+                            <li><a href="#">アカウント</a></li>
                         </ul>
-                    </div>
-                </nav>
-                    <a href="{% url 'app_fabla:fabla_create' %}" class="fixed btn04 borderleft pull-right"><span>投稿</span></a>
-                <!-- nav bar ここまで -->
-            </header>
+                    </nav>
+                    {% endif %}
+                    <!-- スライドメニュー　ここまで -->
+                    <!-- nav bar -->
+                    <nav class="navbar navbar-default navbar-fixed-top">
+                        <div class="container">
+                            <div class="navbar-header"> <a class="navbar-brand"
+                                    href="{% url 'app_fabla:index' %}">Fabla</a>
+                                <ul class='nav navbar-nav navbar-right'>
+                                    {% if user.is_authenticated %}
+                                    <li class="nav-item">
+                                        <a class="nav-link"
+                                            href="{% url 'app_fabla:profile' request.user.pk %}">プロフィール</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'account_logout' %}">Log Out</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'app_fabla:signup' %}">Sign Up</a>
+                                    </li>
+                                    <li class="nav-item {% block active_login %}{% endblock %}">
+                                        <a class="nav-link" href="{% url 'account_login' %}">Log In</a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                    </nav>
+                    <!-- nav bar ここまで -->
+                </header>
+            </div>
+        </div><!-- .entry-content -->
+
+        <div class="wrapper">
+            {% block header %}{% endblock %}
+
+            {% block contents %}{% endblock %}
         </div>
-    </div><!-- .entry-content -->
 
-    <div class="wrapper">
-    {% block header %}{% endblock %}
+        <!-- Footer -->
+        <footer class="py-5 bg-white">
+            <div class="container">
+                <p class="m-0 text-center text-black help-block">Copyright &copy; Fabla 2022</p>
+            </div>
+            <!-- /.container -->
+        </footer>
+        <!-- Footer ここまで-->
 
-    {% block contents %}{% endblock %}
-    </div>
-
-    <!-- Footer -->
-    <footer class="py-5 bg-white">
-        <div class="container">
-            <p class="m-0 text-center text-black help-block">Copyright &copy; Fabla 2022</p>
-        </div>
-        <!-- /.container -->
-    </footer>
-    <!-- Footer ここまで-->
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/js/drawer.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/iScroll/5.2.0/iscroll.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/drawer/3.2.2/js/drawer.min.js"></script>
 
 </body>
 
