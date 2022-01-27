@@ -19,6 +19,7 @@
                 </h3>
             </a>
             <p class="post-meta">{{ post.created_at }}</p>
+            {{ post.good_set.count }}
         </div>
         <hr>
         {% empty %}

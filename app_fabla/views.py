@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
+from django.contrib.auth.forms import UserCreationForm
 
 from .forms import AppFablaCreateForm,ReportForm
 from .models import Post
@@ -32,11 +33,11 @@ class AppFablaCreateView(LoginRequiredMixin, generic.CreateView):
     model = Post
     template_name = 'fabla_create.html'
     form_class = AppFablaCreateForm
-    success_url = reverse_lazy('app_fabla:index')
+    success_url = reverse_lazy('app_fabla:post_list')
 
     def form_valid(self, form):
         post = form.save(commit=False)
-        post.user = self.request.user
+        post.user_id = self.request.user
         post.save()
         messages.success(self.request, '日記を作成しました。')
         return super().form_valid(form)
@@ -54,7 +55,6 @@ class PostListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return super().get_queryset()
-
 # 画面詳細
 
 
@@ -224,26 +224,6 @@ class HisPosListView(LoginRequiredMixin, generic.ListView):
         print(hispost)
         return hispost
 
-<<<<<<< HEAD
-class Signup(generic.CreateView):
-    template_name = 'user_form.html'
-    form_class = SignUpForm
-
-    def form_valid(self, form):
-        user = form.save() # formの情報を保存
-        return redirect('app_fabla:sign_up_done')
-
-    # データ送信
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["process_name"] = "Sign up"
-        return context
-
-class SignupDone(generic.TemplateView):
-    template_name = 'sign_up_done.html'
-    def get_success_url(self):
-        return reverse_lazy('accounts:login')
-=======
 class Goodhistory(LoginRequiredMixin, generic.ListView):
     template_name = "goodhistory.html"
     model = Post
@@ -259,4 +239,20 @@ class Goodhistory(LoginRequiredMixin, generic.ListView):
             'good_list':good_list
         }
         return(context)
->>>>>>> 560b6e4477cadc2b6a53ea5eae9587f0f69d94ae
+
+class Signup(generic.CreateView):
+   template_name = 'user_form.html'
+   form_class = SignUpForm
+   def form_valid(self, form):
+       user = form.save() # formの情報を保存
+       return redirect('app_fabla:sign_up_done')
+    # データ送信
+   def get_context_data(self, **kwargs):
+       context = super().get_context_data(**kwargs)
+       context["process_name"] = "Sign up"
+       return context
+
+class SignupDone(generic.TemplateView):
+    template_name = 'sign_up_done.html'
+    def get_success_url(self):
+        return reverse_lazy('accounts:login')

@@ -1,6 +1,5 @@
 from django import forms
 from .models import Post,PostReport
-<<<<<<< HEAD
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 
@@ -18,8 +17,6 @@ class SignUpForm(UserCreationForm):
             for field in self.fields.values():
                 field.widget.attrs['class'] = 'form-control'
                 field.widget.attrs['required'] = '' # 全フィールドを入力必須
-=======
->>>>>>> 560b6e4477cadc2b6a53ea5eae9587f0f69d94ae
 
 
 class AppFablaCreateForm(forms.ModelForm):
