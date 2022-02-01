@@ -8,6 +8,8 @@
 {% block contents %}
 <div class="container">
     <div class="starter-template text-center py-5 px-3">
+        <h2>{{ order_by }}順</h2>
+        <h3>{{ search_by }}の投稿</h3>
         {% for post in post_list %}
         <div class="post-preview">
             <a href="{% url 'app_fabla:post_detail' post.pk %}">
