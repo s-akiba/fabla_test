@@ -9,7 +9,6 @@ urlpatterns = [
     # 画面詳細へ
     path('post-detail/<str:pk>/',views.PostDetail.as_view(), name="post_detail"),
     path('congressman/',views.CongressmanListView.as_view(), name="congressman"),
-    path('cong-list/',views.CongListView.as_view(), name="cong_list"),
     path('profile/<str:pk>/',views.profileDetail.as_view(), name="profile"),
     path('profile-ed/<str:pk>/',views.profileEdit.as_view(), name="profile_edit"),
     path('fabla-create/',views.AppFablaCreateView.as_view(), name="fabla_create"),
