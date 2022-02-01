@@ -23,7 +23,10 @@ from .models import *
 from accounts.models import CustomUser
 from django.utils import timezone
 
-from django.utils import timezone
+from django.template.loader import render_to_string
+from django.views.generic.base import View
+from django.contrib.auth.decorators import login_required
+
 
 class IndexView(generic.TemplateView):
     template_name = "index.html"
@@ -256,3 +259,94 @@ class SignupDone(generic.TemplateView):
     template_name = 'sign_up_done.html'
     def get_success_url(self):
         return reverse_lazy('accounts:login')
+
+
+# chat-list/
+# post-detail -> chat-list
+class ChatListView(LoginRequiredMixin, generic.ListView):
+    context_object_name = 'room_list'
+    model = Chat
+    template_name = 'chat_list.html'
+    slug_url_kwarg= 'post_id'
+    slug_field = 'post_id'
+    
+
+    def get_queryset(self):
+        print(self.kwargs['post_id'])
+        queryset = Chat.objects.filter(post_id=self.kwargs['post_id']).order_by('-created_at')
+        return queryset
+
+
+# chat-detail/
+# chat-list -> chat-detail
+class ChatDetailView(LoginRequiredMixin, View):
+    slug_url_kwarg= 'chatroom_id'
+    slug_field = 'chatroom_id'
+
+    def get(self, request, *args, **kwargs):
+
+        is_ajax = request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+        if is_ajax:
+            chat_contents   = ChatDetail.objects.filter(chatroom_id=self.kwargs['chatroom_id']).order_by('created_at')
+            json    = { "error":False }
+            context = { "chat_detail":chat_contents }
+            content = render_to_string("chat_detail_content.html",context,request)
+            json["content"] = content
+            print('ajax_resp:', json['content'])
+            return JsonResponse(json)
+        else:
+            chat_contents  = ChatDetail.objects.filter(chatroom_id=self.kwargs['chatroom_id']).order_by('created_at')
+            chat_room = Chat.objects.get(chatroom_id=self.kwargs['chatroom_id'])
+            context = { "chat_detail":chat_contents,
+                        "user1_id":chat_room.user1_id.user_id,
+                        "user2_id":chat_room.user2_id.user_id }
+            print(context)
+            return render(request,"chat_detail.html",context)
+
+    def post(self, request, *args, **kwargs):
+        print('room_id:{} user:{}'.format(self.kwargs['chatroom_id'], self.request.user))
+
+        print(request.POST)
+
+        json    = { "error":True }
+        new_chat = ChatDetail(chatroom_id= Chat.objects.get(chatroom_id=self.kwargs['chatroom_id']), user_id=CustomUser.objects.get(user_id=self.request.user), content=request.POST.get('comment'))
+        new_chat.save()
+        if new_chat.chat_id is not None:
+            json["error"]   = False
+
+        chat_contents   = ChatDetail.objects.filter(chatroom_id=self.kwargs['chatroom_id']).order_by('created_at')
+        context         = { "chat_detail":chat_contents }
+        content         = render_to_string("chat_detail_content.html",context,request)
+
+        json["content"] = content
+        return JsonResponse(json)
+
+
+# my-chat-list/
+# profile -> my-chat-list
+@login_required
+def MyChatList(request, name):
+
+    object_list = Chat.objects.filter(Q(user1_id=name) | Q(user2_id=name)).order_by('created_at')
+    context = {'room_list': object_list}
+    return render(request, 'chat_list.html', context)
+
+# create-chatroom/
+# post-detail -> create-chatroom
+@login_required
+def CreateChatRoom(request, post_id):
+    if Chat.objects.filter(post_id=post_id, user1_id=request.user) or Chat.objects.filter(post_id=post_id, user2_id=request.user):
+        messages.warning(request, '既にこの投稿に対するチャットがあります！')
+        url = '/post-detail/'+post_id+'/'
+        return redirect(to=url)
+    else:
+        target_post = Post.objects.get(post_id=post_id)
+        new_chatroom = Chat(post_id=post_id, user1_id=request.user, user2_id=target_post.user_id)
+        new_chatroom.save()
+        if new_chatroom.chatroom_id is not None:
+            url = '/chat-detail/'+ new_chatroom.chatroom_id + '/'
+            return redirect(to=url)
+        else:
+            messages.warning(request, '何らかの理由でチャットが作成出来ませんでした。')
+            url = '/post-detail/'+post_id+'/'
+            return redirect(to=url)

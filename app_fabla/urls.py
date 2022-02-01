@@ -22,7 +22,9 @@ urlpatterns = [
     path('signup/', views.Signup.as_view(), name='signup'),
     path('signup_done/', views.SignupDone.as_view(), name='sign_up_done'),
     path('hispost-list/',views.HisPosListView.as_view(),name="post_list"),
-    path('good-history/',views.Goodhistory.as_view(),name='good_history')
+    path('good-history/',views.Goodhistory.as_view(),name='good_history'),
+    path('my-chat-list/<str:name>/', views.MyChatList, name="my_chat"),
+    path('create-chatroom/<str:post_id>/', views.CreateChatRoom, name="create_room"),
 
 ]
 
