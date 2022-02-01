@@ -26,6 +26,8 @@ urlpatterns = [
     path('my-chat-list/<str:name>/', views.MyChatList, name="my_chat"),
     path('create-chatroom/<str:post_id>/', views.CreateChatRoom, name="create_room"),
     path('post-sort/', views.PostSortListView.as_view(), name='post-sort'),
+    path('chat-list/<str:post_id>/',views.ChatListView.as_view(), name="chat_list"),
+    path('chat-detail/<str:chatroom_id>/',views.ChatDetailView.as_view(), name="chat_detail"),
 ]
 
 
