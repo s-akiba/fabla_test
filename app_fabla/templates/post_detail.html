@@ -65,6 +65,13 @@
                 </div>
             </table>
 
+            <a href="{% url 'app_fabla:chat_list' post.post_id %}">
+                <h3>チャット一覧表示</h3>
+            </a>
+            <a href="{% url 'app_fabla:create_room' post.post_id %}">
+                <h3>チャット新規作成</h3>
+            </a>
+
             {% for comment in comment_list %}
             <p>{{ comment.user_id }}{{ comment.content }}</p>
             <p></p>
