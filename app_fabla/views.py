@@ -226,6 +226,9 @@ class HisPosListView(LoginRequiredMixin, generic.ListView):
         print(hispost)
         return hispost
 
+
+# good-history/
+# profile -> good-history
 class Goodhistory(LoginRequiredMixin, generic.ListView):
     template_name = "goodhistory.html"
     model = Post
