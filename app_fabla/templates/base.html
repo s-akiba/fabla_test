@@ -11,7 +11,6 @@
     <meta charset="utf-8">
 
 
-    <script src="{% static 'vendor/jquery/jquery-1.11.3.min.js' %}"></script>
     <script src="{% static 'vendor/bootstrap/bootstrap.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -170,6 +169,7 @@
         </div><!-- .entry-content -->
 
         {% block contents %}{% endblock %}
+        {% block bodybottom %}{% endblock %}
 
         <!-- Footer -->
         <footer class="py-5 bg-white">
