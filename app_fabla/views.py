@@ -194,6 +194,7 @@ def CommentView(request):
         d = {
             'comment': comment2.content,
             'user_name': str(comment2.user_id),
+            'icon_url':comment2.user_id.icon_photo.url,
         }
         return JsonResponse(d)
 

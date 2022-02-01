@@ -2,9 +2,13 @@
   font-size: 18px;
   line-height: 1.5;
   display: inline-block;
-  width: 100%;
+  width: 70%;
+  margin-left: 15%;
 }
-
+.post_form{
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
 /* ---------------------------- */
 /* --- ハートアニメーション --- */
 /* ---------------------------- */
@@ -264,6 +268,48 @@ textarea {
   width:  50px;       /* ※縦横を同値に */
   height: 50px;       /* ※縦横を同値に */
 }
-.post_photo{
-  
+/* detailのtitileの上下余白と太字 */
+.post_title{
+  font-weight: bold;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+/* detailのラベルカラー */
+.post_label{
+  color: #444974d0;
+}
+/* 余白 */
+.post_margin_bottom{
+  margin-bottom: 20px;
+}
+.post_created_at{
+  color: #7a7ca3bd;
+  text-align: right;
+  margin-top: 20px;
+}
+.item_like {
+  float: left;
+  padding: 0px;
+  text-align: center;
+}
+.padding_set{
+  padding: 0px;
+}
+.size_font{
+  font-size: 12px;
+  width: auto;
+}
+.btn-outline-secondary{color:#6c757d;border-color:#6c757d}
+.btn-outline-secondary:hover{color:#fff;background-color:#6c757d;border-color:#6c757d}
+.btn-outline-secondary.focus,.btn-outline-secondary:focus{box-shadow:0 0 0 .2rem rgba(108,117,125,.5)}
+.btn-outline-secondary.disabled,.btn-outline-secondary:disabled{color:#6c757d;background-color:transparent}
+.btn-outline-secondary:not(:disabled):not(.disabled).active,.btn-outline-secondary:not(:disabled):not(.disabled):active,.show>
+.btn-outline-secondary.dropdown-toggle{color:#fff;background-color:#6c757d;border-color:#6c757d}
+.btn-outline-secondary:not(:disabled):not(.disabled).active:focus,.btn-outline-secondary:not(:disabled):not(.disabled):active:focus,.show>.btn-outline-secondary.dropdown-toggle:focus{box-shadow:0 0 0 .2rem rgba(108,117,125,.5)}
+
+.comment_right{
+  margin-left: 10%;
+}
+.hr_ch{
+  margin-top: 0;
 }
