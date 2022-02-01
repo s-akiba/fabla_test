@@ -9,7 +9,6 @@ urlpatterns = [
     # 画面詳細へ
     path('post-detail/<str:pk>/',views.PostDetail.as_view(), name="post_detail"),
     path('congressman/',views.CongressmanListView.as_view(), name="congressman"),
-    path('cong-list/',views.CongListView.as_view(), name="cong_list"),
     path('profile/<str:pk>/',views.profileDetail.as_view(), name="profile"),
     path('profile-ed/<str:pk>/',views.profileEdit.as_view(), name="profile_edit"),
     path('fabla-create/',views.AppFablaCreateView.as_view(), name="fabla_create"),
@@ -25,7 +24,9 @@ urlpatterns = [
     path('good-history/',views.Goodhistory.as_view(),name='good_history'),
     path('my-chat-list/<str:name>/', views.MyChatList, name="my_chat"),
     path('create-chatroom/<str:post_id>/', views.CreateChatRoom, name="create_room"),
-
+    path('post-sort/', views.PostSortListView.as_view(), name='post-sort'),
+    path('chat-list/<str:post_id>/',views.ChatListView.as_view(), name="chat_list"),
+    path('chat-detail/<str:chatroom_id>/',views.ChatDetailView.as_view(), name="chat_detail"),
 ]
 
 
