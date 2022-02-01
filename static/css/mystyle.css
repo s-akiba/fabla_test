@@ -267,3 +267,39 @@ textarea {
 .post_photo{
   
 }
+.m_p {
+  height:700px;
+  width:auto;
+  background-size: auto 120%;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0px; padding: 0px;
+  background-image: url('../img/top.jpg');
+  
+}
+
+.top_curent{
+  position: absolute;
+  top: 70%;
+  left: 25%;
+  -webkit-transform : translate(-50%,-50%);
+  transform : translate(-50%,-50%);
+  width: 100px;
+  text-align: center;
+  font-size: 280px;
+  color: white;
+  font-weight: bolder;
+  font-family: Sharoa Pro Ultra Italic  
+}
+
+
+
+
+/* .container {
+  height:700px;
+  width:auto;
+  background-size: auto 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('../img/top.jpg');
+  } */
