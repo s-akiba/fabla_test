@@ -26,6 +26,13 @@ from django.utils import timezone
 from django.template.loader import render_to_string
 from django.views.generic.base import View
 from django.contrib.auth.decorators import login_required
+import logging
+from dateutil.relativedelta import relativedelta
+import datetime
+from django.db.models.aggregates import Count
+
+logging.basicConfig()
+logger = logging.getLogger(__name__)
 
 
 class IndexView(generic.TemplateView):
@@ -49,8 +56,6 @@ class AppFablaCreateView(LoginRequiredMixin, generic.CreateView):
         messages.error(self.request, '日記の作成に失敗しました。')
         return super().form_invalid(form)
 
-# Create your views here.
-
 
 class PostListView(LoginRequiredMixin, generic.ListView):
     model = Post
@@ -72,12 +77,6 @@ class CongressmanListView(generic.ListView):
         query_set = CustomUser.objects.all().filter(assembly=True)
         return query_set
 
-class CongListView(generic.ListView):
-    template_name='cong_list.html'
-    model = CustomUser
-    def get_queryset(self):
-        query_set = CustomUser.objects.all().filter(assembly=True)
-        return query_set
 
 class profileDetail(generic.DetailView):
     template_name='profile.html'
@@ -350,3 +349,131 @@ def CreateChatRoom(request, post_id):
             messages.warning(request, '何らかの理由でチャットが作成出来ませんでした。')
             url = '/post-detail/'+post_id+'/'
             return redirect(to=url)
+
+
+
+# post-sort/
+class PostSortListView(LoginRequiredMixin, generic.ListView):
+    context_objct_name = 'post_list'
+    template_name = 'post_list.html'
+    model = Post
+    search_by = ''
+    odr_by = ''
+
+    def get_queryset(self):
+        logger.info('1 byage:{} category:{} order:{}'.format(self.request.GET.get('byage'),self.request.GET.get('category'),self.request.GET.get('order')))
+        if ('byage' not in self.request.GET) and ('category' not in self.request.GET) and ('order' not in self.request.GET):
+            return redirect('../')
+        
+        elif 'byage' in self.request.GET:
+            byage = self.request.GET.get('byage')
+            odrby = self.request.GET.get('order')
+            if odrby == 'new':
+                PostSortListView.odr_by = '新規投稿'
+            elif odrby == 'good':
+                PostSortListView.odr_by = 'いいね数'
+            else:
+                return redirect('../')
+            logger.info('2 byage:{} odrby:{}'.format(byage,odrby))
+            nowdate = datetime.date.today()
+            ago20 = nowdate - relativedelta(years=20)
+            ago30 = nowdate - relativedelta(years=30)
+            ago40 = nowdate - relativedelta(years=40)
+            ago50 = nowdate - relativedelta(years=50)
+            ago60 = nowdate - relativedelta(years=60)
+
+            if byage == 'lt20':
+                # 20未満
+                lst = [usr.user_id for usr in CustomUser.objects.filter(birth__gt=ago20)]
+                if odrby == 'new':
+                    queryset = Post.objects.filter(user_id__in=lst).order_by('-created_at')
+                else:
+                    queryset = Post.objects.filter(user_id__in=lst).annotate(Count('good')).order_by('-good__count')
+                    
+                PostSortListView.search_by = '20才未満'
+                return queryset
+            elif byage == '20':
+                # 20代
+                lst = [usr.user_id for usr in CustomUser.objects.filter(birth__gt=ago30, birth__lte=ago20)]
+                if odrby == 'new':
+                    queryset = Post.objects.filter(user_id__in=lst).order_by('-created_at')
+                else:
+                    queryset = Post.objects.filter(user_id__in=lst).annotate(Count('good')).order_by('-good__count')
+                PostSortListView.search_by = '{}代'.format(byage)
+                return queryset
+            elif byage == '30':
+                # 30代
+                lst = [usr.user_id for usr in CustomUser.objects.filter(birth__gt=ago40, birth__lte=ago30)]
+                if odrby == 'new':
+                    queryset = Post.objects.filter(user_id__in=lst).order_by('-created_at')
+                else:
+                    queryset = Post.objects.filter(user_id__in=lst).annotate(Count('good')).order_by('-good__count')
+                PostSortListView.search_by = '{}代'.format(byage)
+                return queryset
+            elif byage == '40':
+                # 40代
+                lst = [usr.user_id for usr in CustomUser.objects.filter(birth__gt=ago50, birth__lte=ago40)]
+                if odrby == 'new':
+                    queryset = Post.objects.filter(user_id__in=lst).order_by('-created_at')
+                else:
+                    queryset = Post.objects.filter(user_id__in=lst).annotate(Count('good')).order_by('-good__count')
+                PostSortListView.search_by = '{}代'.format(byage)
+                return queryset
+            elif byage == '50':
+                # 50代
+                lst = [usr.user_id for usr in CustomUser.objects.filter(birth__gt=ago60, birth__lte=ago50)]
+                if odrby == 'new':
+                    queryset = Post.objects.filter(user_id__in=lst).order_by('-created_at')
+                else:
+                    queryset = Post.objects.filter(user_id__in=lst).annotate(Count('good')).order_by('-good__count')
+                PostSortListView.search_by = '{}代'.format(byage)
+                return queryset
+            elif byage == 'ov60':
+                # 60代
+                lst = [usr.user_id for usr in CustomUser.objects.filter(birth__lte=ago60)]
+                if odrby == 'new':
+                    queryset = Post.objects.filter(user_id__in=lst).order_by('-created_at')
+                else:
+                    queryset = Post.objects.filter(user_id__in=lst).annotate(Count('good')).order_by('-good__count')
+                PostSortListView.search_by = '60才以上'
+                return queryset
+            else:
+                return redirect('../')
+
+        elif 'category' in self.request.GET:
+            cate = self.request.GET.get('category')
+            odrby = self.request.GET.get('order')
+            if odrby == 'new':
+                PostSortListView.odr_by = '新規投稿'
+            elif odrby == 'good':
+                PostSortListView.odr_by = 'いいね数'
+            else:
+                return redirect('../')
+            logger.info('4 category:{} odrby:{}'.format(cate,odrby))
+            try:
+                cate_no = int(cate)
+            except Exception :
+                return redirect('../')
+            
+            max_no = Category.objects.all().count()
+            if 1 <= cate_no and cate_no <= max_no:
+                if odrby == 'new':
+                    queryset = Post.objects.filter(category_no=cate_no).order_by('-created_at')
+                else:
+                    queryset = Post.objects.filter(category_no=cate_no).annotate(Count('good')).order_by('-good__count')
+                
+                cate_name = Category.objects.filter(id=cate_no).first()
+                PostSortListView.search_by = 'カテゴリー : {}'.format(cate_name.name)
+                return queryset
+            else:
+                return redirect('../')
+            
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super(PostSortListView, self).get_context_data(*args, **kwargs)
+        context['search_by'] = PostSortListView.search_by
+        context['order_by'] = PostSortListView.odr_by
+        context['category_list'] = Category.objects.all()
+        logger.info('5 searchby:{}'.format(PostSortListView.search_by))
+        logger.info('6 odrby:{}'.format(PostSortListView.odr_by))
+        return context

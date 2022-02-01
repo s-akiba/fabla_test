@@ -25,7 +25,7 @@ urlpatterns = [
     path('good-history/',views.Goodhistory.as_view(),name='good_history'),
     path('my-chat-list/<str:name>/', views.MyChatList, name="my_chat"),
     path('create-chatroom/<str:post_id>/', views.CreateChatRoom, name="create_room"),
-
+    path('post-sort/', views.PostSortListView.as_view(), name='post-sort'),
 ]
 
 
