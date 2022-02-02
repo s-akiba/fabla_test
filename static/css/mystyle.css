@@ -357,3 +357,17 @@ textarea {
   margin-right: 20px;
   margin-left: 10px;
 }
+.ul_ch, .ol_ch {
+  padding: 0;
+  position: relative;
+}
+
+.ul_ch .li_ch, .ol_ch .li_ch {
+  color: #5a646d;
+  border-left: solid 6px #5a646d;/*左側の線*/
+  background: #f1f8ff;/*背景色*/
+  margin-bottom: 3px;/*下のバーとの余白*/
+   line-height: 1.5;
+  padding: 0.5em;
+  list-style-type: none!important;/*ポチ消す*/
+}
