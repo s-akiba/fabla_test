@@ -1,5 +1,6 @@
 {% for chat in chat_detail %}
     <div class="border">
-        {{ chat.content }}
+        <img class="chat_comment_icon" src="{{ chat.user_id.icon_photo.url }}">{{ chat.content }}
+        <p class="size_font">{{ chat.user_id.user_name }}</p>
     </div>
 {% endfor %}

@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block contents %}
-<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css" rel="stylesheet">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js" type="text/javascript"></script>
 <div calss="articles-outer row container">
     <div class="post">
         <p class="post_created_at">{{ post.created_at }}</p>
@@ -13,7 +10,13 @@
                 <button class="btn btn-outline-success float-right" type="submit" name="button">通報</button>
                 {% csrf_token %}
             </form>
-            <a class="nav-link" href="{% url 'app_fabla:create_room' object.pk %}">チャット</a>
+
+            <a href="{% url 'app_fabla:chat_list' post.post_id %}">
+                <h3>チャット一覧表示</h3>
+            </a>
+            <a href="{% url 'app_fabla:create_room' post.post_id %}">
+                <h3>チャット新規作成</h3>
+            </a>
         </div>
         <h2 class="post_title">{{ post.title }}</h2>
         <label class="post_label">Category</label>
@@ -24,8 +27,7 @@
             <p>{{ post.content | linebreaksbr }}</p>
         </blockquote>
         {% if post.photo %}
-        <a class="post_photo post_margin_bottom" href="{{ post.photo.url }}" data-lightbox="group"><img
-                class="post_margin_bottom" src="{{ post.photo.url }}" width="400" height="400" /></a>
+        <img class="post_margin_bottom" src="{{ post.photo.url }}" width="400" height="400" />
         {% endif %}
         <div class="like-outer">
             <div class="post_margin_bottom">
@@ -64,26 +66,13 @@
                 {% csrf_token %}
             </form>
 
-            <table class="carousel">
-                <tr>
-                    <td id="posts" name="{{ comment.created_at }}"></td>
-                </tr>
-            </table>
-
-            <a href="{% url 'app_fabla:chat_list' post.post_id %}">
-                <h3>チャット一覧表示</h3>
-            </a>
-            <a href="{% url 'app_fabla:create_room' post.post_id %}">
-                <h3>チャット新規作成</h3>
-            </a>
+            <div id="posts" name="{{ comment.created_at }}"></div>
 
             {% for comment in comment_list %}
             <div>
-                <div class="check_icon">
-                    <img class="check_icon" src="{{ comment.user_id.icon_photo.url }}">
-                    <p class="size_font">{{ comment.user_id }}</p>
-                </div>
-                <p class="comment_right">{{ comment.content }}</p>
+                <img class="check_icon" src="{{ comment.user_id.icon_photo.url }}">
+                <div class="size_font">{{ comment.user_id.user_name }}</div>
+                <div class="comment_right">{{ comment.content }}</div>
             </div>
             <hr>
             {% endfor %}
@@ -144,6 +133,7 @@
         argObj.style.height = wSclollHeight + "px";
     }
     $('#comment_content').on('click', function () {
+
         $.ajax({
             type: 'POST',
             url: "{% url 'app_fabla:comment' %}",
@@ -154,21 +144,19 @@
             },
             dataType: 'json',
         }).done(response => {
-            const y = $('<div><div class="check_icon"><img class="check_icon" src="' + response.icon_url + '">');
-            $('#posts').append(y);
-
-            const p = $('<p>', { text: response.user_name }).attr('class', 'size_font');
-            $('#posts').append(p);
-            const c = $('</div>');
-            $('#posts').append(c);
-
-            // <p>はろー</p>のような要素を作成し、それを記事一覧エリアに追加し、入力欄をクリアする。
-            const x = $('<p>', { text: response.comment }).attr('class', 'comment_right');
-            $('#posts').append(x);
             const d = $('</div><hr>');
-            $('#posts').append(d);
+            $('#posts').prepend(d);
+            // <p>はろー</p>のような要素を作成し、それを記事一覧エリアに追加し、入力欄をクリアする。
+            const x = $('<div>', { text: response.comment }).attr('class', 'comment_right');
+            $('#posts').prepend(x);
+            const p = $('<div>', { text: response.user_name }).attr('class', 'size_font');
+            $('#posts').prepend(p);
+            const y = $('<div><img class="check_icon" src="' + response.icon_url + '">');
+            $('#posts').prepend(y);
 
-            $('#comment').val('');
+
+            $('#comment').val("");
+            $('#comment')[0].setAttribute("value", "");
             // var name = $('td[id="posts"]').attr('name');
         });
     });

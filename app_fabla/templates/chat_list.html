@@ -4,20 +4,18 @@
 
 {% block contents %}
 
-    {% for room in room_list %}
-    <tr>
-        <h3>{{ forloop.counter }}.</h3>
-        <a href="{% url 'app_fabla:chat_detail' room.chatroom_id %}">
-            <h4>タイトル：{{ room.post_id.title }}</h4>
-        </a>
-
-        
-        <h4>ユーザー(議員)：{{ room.user1_id.user_name }}</h4>
-        <h4>ユーザー：{{ room.user2_id.user_name }}</h4>
-        <br>
-    </tr>
-    {% empty %}
-        <p>チャットはありません</p>
-    {% endfor %}
+{% for room in room_list %}
+<ol class="ol_ch">
+    <a href="{% url 'app_fabla:chat_detail' room.chatroom_id %}">
+        <li class="li_ch">
+            <h4>{{ room.post_id.title }}</h4>
+            <h4>ユーザー(議員)：{{ room.user1_id.user_name }}</h4>
+            <h4>ユーザー：{{ room.user2_id.user_name }}</h4>
+        </li>
+    </a>
+</ol>
+{% empty %}
+<p>チャットはありません</p>
+{% endfor %}
 
 {% endblock %}

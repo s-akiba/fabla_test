@@ -12,9 +12,8 @@
     {% if user.get_username == user1_id or user.get_username == user2_id %}
         <form id="form_area" action="" method="POST">
             {% csrf_token %}
-            <input id="submit" type="button" value="送信">
             <textarea id="textarea" class="form-control" name="comment" maxlength="1000"></textarea>
-            
+            <input id="submit" type="button" value="送信">
         </form>
     {% endif %}
 
