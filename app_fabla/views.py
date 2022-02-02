@@ -174,7 +174,7 @@ class PostDetail(generic.DetailView):
         # 以上いいねの流れ========================================================================================================================
         # 以下コメントリスト返す流れ========================================================================================================================
         p_id_comment = Post.objects.get(post_id=self.kwargs['pk'])
-        context['comment_list'] = Comment.objects.filter(post_id = p_id_comment,)
+        context['comment_list'] = Comment.objects.filter(post_id = p_id_comment,).order_by('-created_at')
         # 以上コメントリスト返す流れ========================================================================================================================
         return(context)
 
