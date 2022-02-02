@@ -160,12 +160,12 @@ textarea {
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 .stuff {
-  width: 45%;
+  width: 600px;
 }
 
 .textBox {
   position: relative;
-  width: 50%;
+  width: 500px;
   padding-top: 10px;
   height: auto;
   display: inline-flex;
