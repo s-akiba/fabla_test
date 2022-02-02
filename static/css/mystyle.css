@@ -267,6 +267,7 @@ textarea {
   border-radius: 50%;  /* 角丸半径を50%にする(=円形にする) */
   width:  50px;       /* ※縦横を同値に */
   height: 50px;       /* ※縦横を同値に */
+  margin: 10px;
 }
 /* detailのtitileの上下余白と太字 */
 .post_title{
@@ -348,4 +349,11 @@ textarea {
 }
 .hr_ch{
   margin-top: 0;
+}
+.chat_comment_icon {
+  border-radius: 50%;  /* 角丸半径を50%にする(=円形にする) */
+  width:  50px;       /* ※縦横を同値に */
+  height: 50px;       /* ※縦横を同値に */
+  margin-right: 20px;
+  margin-left: 10px;
 }

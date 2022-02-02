@@ -190,11 +190,12 @@ def CommentView(request):
         comment = request.POST.get('comment')
         user_id=request.user
         post = get_object_or_404(Post, pk=request.POST.get('post_id'))
-        comment2 = Comment.objects.create(post_id=post,user_id=user_id,content=comment)
+        comment2 = Comment.objects.create(post_id=post,user_id=user_id,content=comment,)
         d = {
             'comment': comment2.content,
-            'user_name': str(comment2.user_id),
+            'user_id': str(comment2.user_id),
             'icon_url':comment2.user_id.icon_photo.url,
+            'user_name':str(comment2.user_id.user_name),
         }
         return JsonResponse(d)
 
