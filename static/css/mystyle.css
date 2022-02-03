@@ -2,18 +2,14 @@
   font-size: 18px;
   line-height: 1.5;
   display: inline-block;
-<<<<<<< HEAD
   width: 100%;
   margin-left: 15%;
   margin-top: 10%;
-=======
-  width: 70%;
-  margin-left: 15%;
+ 
 }
 .post_form{
   margin-top: 50px;
   margin-bottom: 20px;
->>>>>>> bc60d148de599cd8812e09266c5ef851563bdd95
 }
 /* ---------------------------- */
 /* --- ハートアニメーション --- */
