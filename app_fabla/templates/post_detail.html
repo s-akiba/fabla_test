@@ -17,6 +17,8 @@
             <a href="{% url 'app_fabla:create_room' post.post_id %}">
                 <h3>チャット新規作成</h3>
             </a>
+            <a class="nav-link" href="{% url 'app_fabla:create_room' object.pk %}">チャット</a>
+            <a href="{{request.META.HTTP_REFERER}}">前のページに戻る</a>
         </div>
         <h2 class="post_title">{{ post.title }}</h2>
         <label class="post_label">Category</label>
@@ -47,10 +49,15 @@
             <label class="post_label">この投稿を読んだ議員</label>
             <hr class="hr_ch">
             <div class="padding_set">
+                
+                
                 {% for checked in checked_list %}
-                <!-- <p>{{ checked.icon_photo }}</p> -->
                 <img class="check_icon" src="{{ checked.icon_photo.url }}">
+                
+                {% empty %}
+                <p>この投稿はまだ議員に読まれていません</p>
                 {% endfor %}
+
             </div>
             <hr>
             <!-- 以下コメント機能 -->
@@ -62,7 +69,7 @@
                     <label class="labelch">Comment</label>
                 </div>
                 <input class="carousel btn btn-outline-secondary" type="button" name="{{post.post_id}}"
-                    id="comment_content" value="送信">
+                    id="comment_content" value="送信" >
                 {% csrf_token %}
             </form>
 
@@ -70,11 +77,13 @@
 
             {% for comment in comment_list %}
             <div>
+                {% if comment.user_id.icon_photo %}
                 <img class="check_icon" src="{{ comment.user_id.icon_photo.url }}">
                 <div class="size_font">{{ comment.user_id.user_name }}</div>
                 <div class="comment_right">{{ comment.content }}</div>
             </div>
             <hr>
+                {% endif %}
             {% endfor %}
 
 
@@ -131,6 +140,7 @@
         if (wSclollHeight < (wLineH * 2)) { wSclollHeight = (wLineH * 2); }
         // テキストエリアの高さを設定する
         argObj.style.height = wSclollHeight + "px";
+        
     }
     $('#comment_content').on('click', function () {
 

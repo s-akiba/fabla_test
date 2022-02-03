@@ -19,6 +19,7 @@ from .forms import AppFablaCreateForm
 
 from .models import *
 
+from accounts.forms import SignupForm
 from accounts.models import CustomUser
 from django.utils import timezone
 
@@ -249,7 +250,7 @@ class Goodhistory(LoginRequiredMixin, generic.ListView):
 
 class Signup(generic.CreateView):
    template_name = 'user_form.html'
-   form_class = SignUpForm
+   form_class = SignupForm
    def form_valid(self, form):
        user = form.save() # formの情報を保存
        return redirect('app_fabla:sign_up_done')
