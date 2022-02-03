@@ -1,5 +1,7 @@
+from multiprocessing import context
 import profile
 from tabnanny import check
+from unicodedata import category
 from django.views import generic
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -173,7 +175,7 @@ class PostDetail(generic.DetailView):
         # 以上いいねの流れ========================================================================================================================
         # 以下コメントリスト返す流れ========================================================================================================================
         p_id_comment = Post.objects.get(post_id=self.kwargs['pk'])
-        context['comment_list'] = Comment.objects.filter(post_id = p_id_comment,)
+        context['comment_list'] = Comment.objects.filter(post_id = p_id_comment,).order_by('-created_at')
         # 以上コメントリスト返す流れ========================================================================================================================
         return(context)
 
@@ -192,7 +194,9 @@ def CommentView(request):
         comment2 = Comment.objects.create(post_id=post,user_id=user_id,content=comment)
         d = {
             'comment': comment2.content,
-            'user_name': str(comment2.user_id),
+            'user_id': str(comment2.user_id),
+            'user_name': str(comment2.user_id.user_name),
+            'icon_url':comment2.user_id.icon_photo.url,
         }
         return JsonResponse(d)
 
