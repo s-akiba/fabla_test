@@ -1,5 +1,7 @@
+from multiprocessing import context
 import profile
 from tabnanny import check
+from unicodedata import category
 from django.views import generic
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -7,7 +9,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 
 from .forms import AppFablaCreateForm,ReportForm
-from .models import Post
 
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
@@ -189,12 +190,12 @@ def CommentView(request):
         comment = request.POST.get('comment')
         user_id=request.user
         post = get_object_or_404(Post, pk=request.POST.get('post_id'))
-        comment2 = Comment.objects.create(post_id=post,user_id=user_id,content=comment,)
+        comment2 = Comment.objects.create(post_id=post,user_id=user_id,content=comment)
         d = {
             'comment': comment2.content,
             'user_id': str(comment2.user_id),
+            'user_name': str(comment2.user_id.user_name),
             'icon_url':comment2.user_id.icon_photo.url,
-            'user_name':str(comment2.user_id.user_name),
         }
         return JsonResponse(d)
 
@@ -344,10 +345,10 @@ def CreateChatRoom(request, post_id):
         return redirect(to=url)
     else:
         target_post = Post.objects.get(post_id=post_id)
-        new_chatroom = Chat(post_id=post_id, user1_id=request.user, user2_id=target_post.user_id)
+        new_chatroom = Chat(post_id=Post.objects.get(post_id=post_id), user1_id=request.user, user2_id=target_post.user_id)
         new_chatroom.save()
         if new_chatroom.chatroom_id is not None:
-            url = '/chat-detail/'+ new_chatroom.chatroom_id + '/'
+            url = '/chat-detail/'+ str(new_chatroom.chatroom_id) + '/'
             return redirect(to=url)
         else:
             messages.warning(request, '何らかの理由でチャットが作成出来ませんでした。')
