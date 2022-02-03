@@ -7,45 +7,36 @@
 {% block active_post_list %}active{% endblock %}
 {% block contents %}
 
-<body>
-    <section>
-        <div class="container">
-            <div class="post">
-                <div class="starter-template text-center py-5 px-3">
-                    <div class="row">
-                        <div class="my-div-style w-100">
-                            <div class="col-lg-8 col-md-10 mx-auto">
-                                <h2>{{ order_by }}順</h2>
-                                <h3>{{ search_by }}の投稿</h3>
-                                {% for post in post_list %}
-                                <div class="post-preview">
-                                    <a href="{% url 'app_fabla:post_detail' post.pk %}">
-                                        <h2 class="post-title">
-                                            {{ post.title }}
-                                        </h2>
-                                    </a>
-                                    <div class="user_data">
-                                        {% if post.user_id.icon_photo %}
-                                        <img class='check_icon' src="{{ post.user_id.icon_photo.url }}" /></a>
-                                        {% endif %}
-                                        <p class="name">{{ post.user_id }}</p>
-                                    </div>
-                                    <div class="post_data">
-                                        <p>💗{{ post.good_set.count }}人が共感しています。</p>
-                                        <p class="post-meta">{{ post.created_at }}</p>
-                                    </div>
-                                </div>
-                                <hr>
-                                {% empty %}
-                                <p>まだ投稿がありません。</p>
-                                {% endfor %}
-                            </div>
-                        </div>
+<section>
+    <div class="container">
+        <div class="post">
+            <div class="starter-template text-center py-5 px-3">
+                <h2>{{ order_by }}順</h2>
+                <h3>{{ search_by }}の投稿</h3>
+                {% for post in post_list %}
+                <div class="post-preview">
+                    <a href="{% url 'app_fabla:post_detail' post.pk %}">
+                        <h2 class="post-title">
+                            {{ post.title }}
+                        </h2>
+                    </a>
+                    <div class="user_data">
+                        {% if post.user_id.icon_photo %}
+                        <img class='check_icon' src="{{ post.user_id.icon_photo.url }}" /></a>
+                        {% endif %}
+                        <p class="name">{{ post.user_id }}</p>
+                    </div>
+                    <div class="post_data">
+                        <p>💗{{ post.good_set.count }}人が共感しています。</p>
+                        <p class="post-meta">{{ post.created_at }}</p>
                     </div>
                 </div>
+                <hr>
+                {% empty %}
+                <p>まだ投稿がありません。</p>
+                {% endfor %}
             </div>
         </div>
-        </div>
-    </section>
-</body>
+    </div>
+</section>
 {% endblock %}
