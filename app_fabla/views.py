@@ -14,9 +14,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
 from django.db.models import Q
 from django.core import serializers
-
-from .forms import AppFablaCreateForm
-
+from accounts.forms import SignupForm
 from .models import *
 
 from accounts.forms import SignupForm
@@ -222,7 +220,7 @@ class ReportFormView(generic.FormView):
 
 class HisPosListView(LoginRequiredMixin, generic.ListView):
     model = Post
-    template_name = 'post_list.html'
+    template_name = 'his_post_list.html'
     def get_queryset(self):
         user = self.request.user
         hispost = Post.objects.filter(user_id=user)

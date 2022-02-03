@@ -79,11 +79,11 @@
             <div>
                 {% if comment.user_id.icon_photo %}
                 <img class="check_icon" src="{{ comment.user_id.icon_photo.url }}">
+                {% endif %}
                 <div class="size_font">{{ comment.user_id.user_name }}</div>
                 <div class="comment_right">{{ comment.content }}</div>
             </div>
             <hr>
-                {% endif %}
             {% endfor %}
 
 
