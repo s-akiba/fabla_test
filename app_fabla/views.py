@@ -8,7 +8,6 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 
 from .forms import AppFablaCreateForm,ReportForm
-from .models import Post
 
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import JsonResponse
@@ -174,7 +173,7 @@ class PostDetail(generic.DetailView):
         # 以上いいねの流れ========================================================================================================================
         # 以下コメントリスト返す流れ========================================================================================================================
         p_id_comment = Post.objects.get(post_id=self.kwargs['pk'])
-        context['comment_list'] = Comment.objects.filter(post_id = p_id_comment,).order_by('-created_at')
+        context['comment_list'] = Comment.objects.filter(post_id = p_id_comment,)
         # 以上コメントリスト返す流れ========================================================================================================================
         return(context)
 
@@ -190,12 +189,10 @@ def CommentView(request):
         comment = request.POST.get('comment')
         user_id=request.user
         post = get_object_or_404(Post, pk=request.POST.get('post_id'))
-        comment2 = Comment.objects.create(post_id=post,user_id=user_id,content=comment,)
+        comment2 = Comment.objects.create(post_id=post,user_id=user_id,content=comment)
         d = {
             'comment': comment2.content,
-            'user_id': str(comment2.user_id),
-            'icon_url':comment2.user_id.icon_photo.url,
-            'user_name':str(comment2.user_id.user_name),
+            'user_name': str(comment2.user_id),
         }
         return JsonResponse(d)
 
@@ -345,10 +342,10 @@ def CreateChatRoom(request, post_id):
         return redirect(to=url)
     else:
         target_post = Post.objects.get(post_id=post_id)
-        new_chatroom = Chat(post_id=post_id, user1_id=request.user, user2_id=target_post.user_id)
+        new_chatroom = Chat(post_id=Post.objects.get(post_id=post_id), user1_id=request.user, user2_id=target_post.user_id)
         new_chatroom.save()
         if new_chatroom.chatroom_id is not None:
-            url = '/chat-detail/'+ new_chatroom.chatroom_id + '/'
+            url = '/chat-detail/'+ str(new_chatroom.chatroom_id) + '/'
             return redirect(to=url)
         else:
             messages.warning(request, '何らかの理由でチャットが作成出来ませんでした。')
