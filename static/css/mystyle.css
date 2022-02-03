@@ -2,11 +2,19 @@
   font-size: 18px;
   line-height: 1.5;
   display: inline-block;
+<<<<<<< HEAD
   width: 100%;
   margin-left: 15%;
   margin-top: 10%;
+=======
+  width: 70%;
+  margin-left: 15%;
 }
-
+.post_form{
+  margin-top: 50px;
+  margin-bottom: 20px;
+>>>>>>> bc60d148de599cd8812e09266c5ef851563bdd95
+}
 /* ---------------------------- */
 /* --- ハートアニメーション --- */
 /* ---------------------------- */
@@ -173,12 +181,12 @@ textarea {
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 .stuff {
-  width: 45%;
+  width: 500px;
 }
 
 .textBox {
   position: relative;
-  width: 50%;
+  width: 70%;
   padding-top: 10px;
   height: auto;
   display: inline-flex;
@@ -280,6 +288,13 @@ textarea {
   border-radius: 50%;  /* 角丸半径を50%にする(=円形にする) */
   width:  50px;       /* ※縦横を同値に */
   height: 50px;       /* ※縦横を同値に */
+  margin: 10px;
+}
+/* detailのtitileの上下余白と太字 */
+.post_title{
+  font-weight: bold;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 .user_data{
   text-align: left;
@@ -362,4 +377,100 @@ a.btn--orange:hover {
 
 .post-time{
   margin-left: 500px;
+}
+.m_p {
+  height:700px;
+  width:auto;
+  background-size: auto 120%;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0px; padding: 0px;
+  background-image: url('../img/top.jpg');
+  
+}
+
+.top_curent{
+  position: absolute;
+  top: 70%;
+  left: 25%;
+  -webkit-transform : translate(-50%,-50%);
+  transform : translate(-50%,-50%);
+  width: 100px;
+  text-align: center;
+  font-size: 280px;
+  color: white;
+  font-weight: bolder;
+  font-family: Sharoa Pro Ultra Italic  
+}
+
+
+
+
+/* .container {
+  height:700px;
+  width:auto;
+  background-size: auto 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('../img/top.jpg');
+  } */
+/* detailのラベルカラー */
+.post_label{
+  color: #444974d0;
+}
+/* 余白 */
+.post_margin_bottom{
+  margin-bottom: 20px;
+}
+.post_created_at{
+  color: #7a7ca3bd;
+  text-align: right;
+  margin-top: 20px;
+}
+.item_like {
+  float: left;
+  padding: 0px;
+  text-align: center;
+}
+.padding_set{
+  padding: 0px;
+}
+.size_font{
+  font-size: 12px;
+  width: auto;
+}
+.btn-outline-secondary{color:#6c757d;border-color:#6c757d}
+.btn-outline-secondary:hover{color:#fff;background-color:#6c757d;border-color:#6c757d}
+.btn-outline-secondary.focus,.btn-outline-secondary:focus{box-shadow:0 0 0 .2rem rgba(108,117,125,.5)}
+.btn-outline-secondary.disabled,.btn-outline-secondary:disabled{color:#6c757d;background-color:transparent}
+.btn-outline-secondary:not(:disabled):not(.disabled).active,.btn-outline-secondary:not(:disabled):not(.disabled):active,.show>
+.btn-outline-secondary.dropdown-toggle{color:#fff;background-color:#6c757d;border-color:#6c757d}
+.btn-outline-secondary:not(:disabled):not(.disabled).active:focus,.btn-outline-secondary:not(:disabled):not(.disabled):active:focus,.show>.btn-outline-secondary.dropdown-toggle:focus{box-shadow:0 0 0 .2rem rgba(108,117,125,.5)}
+
+.comment_right{
+  margin-left: 10%;
+}
+.hr_ch{
+  margin-top: 0;
+}
+.chat_comment_icon {
+  border-radius: 50%;  /* 角丸半径を50%にする(=円形にする) */
+  width:  50px;       /* ※縦横を同値に */
+  height: 50px;       /* ※縦横を同値に */
+  margin-right: 20px;
+  margin-left: 10px;
+}
+.ul_ch, .ol_ch {
+  padding: 0;
+  position: relative;
+}
+
+.ul_ch .li_ch, .ol_ch .li_ch {
+  color: #5a646d;
+  border-left: solid 6px #5a646d;/*左側の線*/
+  background: #f1f8ff;/*背景色*/
+  margin-bottom: 3px;/*下のバーとの余白*/
+   line-height: 1.5;
+  padding: 0.5em;
+  list-style-type: none!important;/*ポチ消す*/
 }

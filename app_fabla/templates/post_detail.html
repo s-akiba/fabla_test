@@ -1,13 +1,167 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block contents %}
+<div calss="articles-outer row container">
+    <div class="post">
+        <p class="post_created_at">{{ post.created_at }}</p>
+        <!-- <a class="btn btn-success mt-5 mb-3" href="{% url 'app_fabla:post_report' post.pk %}">通報</a> -->
+        <div class="popup_content">
+            <form class="text-right" action="{% url 'app_fabla:post_report' post.pk %}" method="post">
+                <button class="btn btn-outline-success float-right" type="submit" name="button">通報</button>
+                {% csrf_token %}
+            </form>
 
-{% block header %}
+            <a href="{% url 'app_fabla:chat_list' post.post_id %}">
+                <h3>チャット一覧表示</h3>
+            </a>
+            <a href="{% url 'app_fabla:create_room' post.post_id %}">
+                <h3>チャット新規作成</h3>
+            </a>
+        </div>
+        <h2 class="post_title">{{ post.title }}</h2>
+        <label class="post_label">Category</label>
+        <p class="post_margin_bottom">{{ post.category_no }}</p>
 
-{{object.title}}
-{{object.category_no}}
-{{object.content}}
-{{object.photo}}
-{{object.created_at}}
+        <label class="post_label">Contents</label>
+        <blockquote class="post_margin_bottom">
+            <p>{{ post.content | linebreaksbr }}</p>
+        </blockquote>
+        {% if post.photo %}
+        <img class="post_margin_bottom" src="{{ post.photo.url }}" width="400" height="400" />
+        {% endif %}
+        <div class="like-outer">
+            <div class="post_margin_bottom">
+                <form class="post_margin_bottom" action="{% url 'app_fabla:like' %}" method="POST">
+                    {% csrf_token %}
+                    {% if post.post_id in liked_list %}
+                    <div id="like" name="{{post.post_id}}"><i
+                            class="fas fa-heart LikesIcon-fa-heart heart item_like"></i>
+                    </div>
+                    {% else %}
+                    <div id="like" name="{{post.post_id}}"><i class="far fa-heart LikesIcon-fa-heart item_like"></i>
+                    </div>
+                    {% endif %}
+                </form>
+                <p name="{{post.post_id}}-count"> {{ post.good_set.count }} </p>
+            </div>
+            <label class="post_label">この投稿を読んだ議員</label>
+            <hr class="hr_ch">
+            <div class="padding_set">
+                {% for checked in checked_list %}
+                <!-- <p>{{ checked.icon_photo }}</p> -->
+                <img class="check_icon" src="{{ checked.icon_photo.url }}">
+                {% endfor %}
+            </div>
+            <hr>
+            <!-- 以下コメント機能 -->
+            <form class="post_form" method="post">
+                <div class="stuff textBox">
+                    <textarea id="comment" class="textBox text modal-open" placeholder="Comment" type="textbox"
+                        name="comment" rows="1" cols="40" onkeyup="this.setAttribute('value', this.value);" value=""
+                        oninput="textAreaHeightSet(this)" onchange="textAreaHeightSet(this)" required></textarea>
+                    <label class="labelch">Comment</label>
+                </div>
+                <input class="carousel btn btn-outline-secondary" type="button" name="{{post.post_id}}"
+                    id="comment_content" value="送信">
+                {% csrf_token %}
+            </form>
+
+            <div id="posts" name="{{ comment.created_at }}"></div>
+
+            {% for comment in comment_list %}
+            <div>
+                <img class="check_icon" src="{{ comment.user_id.icon_photo.url }}">
+                <div class="size_font">{{ comment.user_id.user_name }}</div>
+                <div class="comment_right">{{ comment.content }}</div>
+            </div>
+            <hr>
+            {% endfor %}
 
 
+
+            {% csrf_token %}
+
+            <!-- 以上コメント機能 -->
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function (event) {
+        $(document).on('click', '#like', function (event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'app_fabla:like' %}",
+                data: {
+                    'article_id': $(this).attr('name'),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (response) {
+                    selector = document.getElementsByName(response.article_id);
+                    if (response.liked) {
+                        $(selector).children("i").attr('class', 'fas fa-heart LikesIcon-fa-heart heart item_like');
+                    }
+                    else {
+                        // 白抜きアイコンに戻す
+                        $(selector).children("i").attr('class', 'far fa-heart LikesIcon-fa-heart item_like');
+                    }
+                    selector2 = document.getElementsByName(response.article_id + "-count");
+                    $(selector2).text(response.count);
+                }
+            });
+        });
+    });
+</script>
+<!-- ここまでがいいね機能に関する記述 -->
+
+<script type="text/javascript">
+    // 以下コメントに関する記述
+    function textAreaHeightSet(argObj) {
+        // ==============================================
+        //	フォーカス時の背景色リセット
+        // ==============================================
+        // 一旦テキストエリアを小さくしてスクロールバー（縦の長さを取得）
+        argObj.style.height = "10px";
+        var wSclollHeight = parseInt(argObj.scrollHeight);
+        // 1行の長さを取得する
+        var wLineH = parseInt(argObj.style.lineHeight.replace(/px/, ''));
+        // 最低2行の表示エリアにする
+        if (wSclollHeight < (wLineH * 2)) { wSclollHeight = (wLineH * 2); }
+        // テキストエリアの高さを設定する
+        argObj.style.height = wSclollHeight + "px";
+    }
+    $('#comment_content').on('click', function () {
+
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'app_fabla:comment' %}",
+            data: {
+                'comment': $("#comment").val(),
+                'post_id': $(this).attr('name'),
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+        }).done(response => {
+            const d = $('</div><hr>');
+            $('#posts').prepend(d);
+            // <p>はろー</p>のような要素を作成し、それを記事一覧エリアに追加し、入力欄をクリアする。
+            const x = $('<div>', { text: response.comment }).attr('class', 'comment_right');
+            $('#posts').prepend(x);
+            const p = $('<div>', { text: response.user_name }).attr('class', 'size_font');
+            $('#posts').prepend(p);
+            const y = $('<div><img class="check_icon" src="' + response.icon_url + '">');
+            $('#posts').prepend(y);
+
+
+            $('#comment').val("");
+            $('#comment')[0].setAttribute("value", "");
+            $('#comment')[0].setAttribute("style", "hight='36px'");
+            // var name = $('td[id="posts"]').attr('name');
+        });
+    });
+    // 以上コメントに関する記述
+</script>
 
 {% endblock %}

@@ -17,12 +17,13 @@
         <p>ひとこと：</p>
         <h2 class="profile-bio">
             {{ customuser.bio }}
-        </h2>   
+        </h2>
+
+        <button><a href="{% url 'app_fabla:profile_edit' request.user.pk %}">編集</a></button>
+        <li><a href="{% url 'app_fabla:post_list' %}">投稿履歴</a></li>
+        <li><a href="{% url 'app_fabla:good_history' %}">いいね履歴</a></li>
+        <li><a href="{% url 'app_fabla:my_chat' request.user.pk %}">チャット一覧</a></li>
     </div>
 </div>
-
-    <a href="{% url 'app_fabla:profile_edit' request.user.pk %}" class="btn btn--orange">編集</a>
-    <a href="{% url 'app_fabla:his_post_list' %}" class="btn btn--orange">投稿履歴</a>
-    <a href="{% url 'app_fabla:good_history' %}" class="btn btn--orange">イイネ履歴</a>
 
 {% endblock %}
