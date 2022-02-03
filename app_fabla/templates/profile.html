@@ -4,14 +4,25 @@
 
 {% block contents %}
 
-    <class="post-preview">
-        <h2>{{ customuser.user_name }}
-            {{ customuser.icon_photo }}<br>
+<div class="flex">
+    {% if object.icon_photo %}
+        <img class = 'profile_icon' src="{{ object.icon_photo.url }}">
+    {% endif %}
+    <div class="right">
+        <p>ユーザ名：</p>
+        <h1 class="profile-name">
+            {{ customuser.user_name }}
+        </h1>
+            <br>
+        <p>ひとこと：</p>
+        <h2 class="profile-bio">
             {{ customuser.bio }}
-        </h2>
-
-        <button><a href="{% url 'app_fabla:profile_edit' request.user.pk %}">編集</a></button>
-        <li><a href="{% url 'app_fabla:post_list' %}">投稿履歴</a></li>
+        </h2>   
     </div>
+</div>
+
+    <a href="{% url 'app_fabla:profile_edit' request.user.pk %}" class="btn btn--orange">編集</a>
+    <a href="{% url 'app_fabla:his_post_list' %}" class="btn btn--orange">投稿履歴</a>
+    <a href="{% url 'app_fabla:good_history' %}" class="btn btn--orange">イイネ履歴</a>
 
 {% endblock %}

@@ -1,6 +1,10 @@
 .post {
   font-size: 18px;
   line-height: 1.5;
+  display: inline-block;
+  width: 100%;
+  margin-left: 15%;
+  margin-top: 10%;
 }
 
 /* ---------------------------- */
@@ -135,27 +139,227 @@
 a:hover {
   text-decoration: none;
 }
-
-/*シンプル角丸（影）枠 2*/
-.kakomi-maru2 {
-  margin: 2em auto;
-  padding: 1em;
-  width: 90%;
-  color: #b31515; /*文字色*/
-  border: 6px solid #cee3e9; /*線の太さ・色*/
-  background-color: #fff; /*背景色*/
-  box-shadow: -2px 5px 5px #dad0ca; /*影*/
-  border-radius: 20px; /*角の丸み*/
- }
-
 .post-title {
-  color: black;
+  color: rgb(146, 141, 141);
+  position:  absolute;        /* 要素の配置方法を指定 */
+  font-size: 210%;
+  text-align: center; 
+  margin-top: 70px;
+  margin-left: 140px;
 }
 
 img {
   border-radius: 50%;  /* 角丸半径を50%にする(=円形にする) */
-  width: 120px;
-  height: 120px;
+  width: 50px;
+  height: 50px;
 }
 
  
+body, #wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  resize: vertical;
+}
+
+footer {
+  margin-top: auto;
+}
+
+textarea {
+  resize: none;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+.stuff {
+  width: 45%;
+}
+
+.textBox {
+  position: relative;
+  width: 50%;
+  padding-top: 10px;
+  height: auto;
+  display: inline-flex;
+  margin-bottom: 3vh;
+}
+
+.textBox .text {
+  font-weight: 500;
+  width: calc(100% - 2vw);
+  height: auto;
+  padding-left: 0.5vw;
+  background-color: transparent;
+  color: black;
+  position: relative;
+  bottom: 0px;
+  outline: none;
+  border-style: solid;
+  border-color: #E3E7EA;
+  border-width: 0px 0px 2px 0px;
+  font-size: 20px;
+  -webkit-transition: border-color 0.45s linear;
+  transition: border-color 0.45s linear;
+}
+
+.textBox>textarea.text:focus {
+  border-color: #000000;
+}
+
+.textBox .labelch {
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 1;
+  color: #C0C0C0;
+  position: absolute;
+  padding-left: 0.5vw;
+  bottom: 3px;
+  font-size: 20px;
+  font-weight: 300;
+  -webkit-transition-property: opacity bottom font-size;
+  transition-property: opacity bottom font-size;
+  -webkit-transition-duration: 0.45s;
+  transition-duration: 0.45s;
+  -webkit-transition-timing-function: cubic-bezier(.68, -0.55, .27, 1.55);
+  transition-timing-function: cubic-bezier(.68, -0.55, .27, 1.55);
+}
+
+.textBox .error {
+  position: absolute;
+  margin-top: 48px;
+  width: 100%;
+  color: #e74c3c;
+  text-align: center;
+}
+
+.textBox>textarea.text:focus~.labelch, .textBox>textarea.text:not([value=""])~.labelch {
+  opacity: 1;
+  z-index: 1;
+  top: 0;
+  font-size: 12px;
+  position: absolute;
+}
+
+.textBox>textarea.text:focus~.labelch {
+  color: #000000;
+}
+
+.textBox ::-webkit-textarea-placeholder {
+  /* Chrome/Opera/Safari */
+  color: #2B2B2B;
+  font-size: 20px;
+  font-weight: 200;
+  font-family: 'Roboto', sans-serif;
+}
+
+.textBox ::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #2B2B2B;
+  font-size: 20px;
+  font-weight: 200;
+  font-family: 'Roboto', sans-serif;
+}
+
+.textBox :-ms-textarea-placeholder {
+  /* IE 10+ */
+  color: #2B2B2B;
+  font-size: 20px;
+  font-weight: 200;
+  font-family: 'Roboto', sans-serif;
+}
+
+.textBox :-moz-placeholder {
+  /* Firefox 18- */
+  color: #2B2B2B;
+  font-size: 20px;
+  font-weight: 200;
+  font-family: 'Roboto', sans-serif;
+}
+.check_icon {
+  border-radius: 50%;  /* 角丸半径を50%にする(=円形にする) */
+  width:  50px;       /* ※縦横を同値に */
+  height: 50px;       /* ※縦横を同値に */
+}
+.user_data{
+  text-align: left;
+}
+.post_data{
+  text-align: right;
+}
+.name{
+  align-items: flex-end;
+  text-align: left;
+}
+.list-preview{
+  display: inline-block;
+}
+
+.kakomi-smart2 {
+  display:inline-block;
+  margin: 2.5em ;
+  padding: 35px ;
+  width: 17%;
+  height: 17%;
+  color: #555555; /* 文字色 */
+  background-color: #fff;
+  border: 4px double #a7a0a2; /* 枠線の太さ・色 */
+  box-shadow: 2px 2px 2px #ccc;/* 影の色 */
+  text-align: center;
+ }
+
+ .list-preview{
+   text-align: center;
+ }
+
+ .cong_icon{
+  border-radius: 50%;  /* 角丸半径を50%にする(=円形にする) */
+  width:  120px;       /* ※縦横を同値に */
+  height: 120px;       /* ※縦横を同値に */
+ }
+
+ .flex {
+  display: flex; /*横並び*/
+  margin: 50px;
+}
+.flex .profile_icon {
+  border-radius: 50%;  /* 角丸半径を50%にする(=円形にする) */
+  width: 350px;
+  height: 350px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+}
+.flex .right {
+  margin: 0 0 0 20px;
+  padding: 0;
+}
+.flex .profile-name {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  font-size: 50px;
+}
+.flex .profile-bio {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+/* プロフィールボタン */
+.btn--orange,
+a.btn--orange {
+  color: #fff;
+  background-color: #eb6100;
+}
+.btn--orange:hover,
+a.btn--orange:hover {
+  color: #fff;
+  background: #f56500;
+}
+
+.post-time{
+  margin-left: 500px;
+}
