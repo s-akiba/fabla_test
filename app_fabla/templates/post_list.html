@@ -1,20 +1,25 @@
 {% extends 'base.html' %}
- 
+
 {% load static %}
- 
+
 {% block title %}議員と市民を繋ぐ|Fabla{% endblock %}
 <!-- このタブは -->
 {% block active_post_list %}active{% endblock %}
 {% block contents %}
-<body>
 <section>
     <div class="container">
-        <div class="post">
-        <div class="starter-template text-center py-5 px-3">
-            <div class="row">
-                <div class="my-div-style w-100">
-                    <div class="col-lg-8 col-md-10 mx-auto">
-                        {% for post in post_list %}
+        <a href="{% url 'app_fabla:fabla_create' %}" class="btn04 borderleft"><span>投稿</span></a>
+        <div class="post_list">
+            <div class="starter-template text-center py-5 px-3">
+                <div class="row">
+                    <div class="my-div-style w-100">
+                        <div class="col-lg-8 col-md-10 mx-auto">
+                            {% if search_by != "投稿履歴" %}
+                            <h2>{{ order_by }}順</h2>
+                            <h3>{{ search_by }}の投稿</h3>
+                            {% endif %}
+
+                            {% for post in post_list %}
                             <div class="post-preview">
                                 <a href="{% url 'app_fabla:post_detail' post.pk %}">
                                     <h2 class="post-title">
@@ -23,26 +28,24 @@
                                 </a>
                                 <div class="user_data">
                                     {% if post.user_id.icon_photo %}
-                                        <img class='check_icon' src="{{ post.user_id.icon_photo.url }}"/></a>
-                                    {% endif %} 
-                                    <p class="name">{{ post.user_id }}</p>
+                                        <img class='check_icon' src="{{ post.user_id.icon_photo.url }}" /></a>
+                                    {% endif %}
+                                    <p class="name">{{ post.user_id.user_name }}</p>
                                 </div>
                                 <div class="post_data">
                                     <p>💗{{ post.good_set.count }}人が共感しています。</p>
-                                <p class="post-meta">{{ post.created_at }}</p>
+                                    <p class="post-meta">{{ post.created_at }}</p>
                                 </div>
                             </div>
                             <hr>
-                        {% empty %}
+                            {% empty %}
                             <p>まだ投稿がありません。</p>
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
     </div>
-</div>
 </section>
-</body>
 {% endblock %}

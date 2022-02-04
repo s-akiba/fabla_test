@@ -18,7 +18,6 @@ urlpatterns = [
     path('like', views.LikeView, name='like'),
     path('fabla-create/', views.AppFablaCreateView.as_view(), name="fabla_create"),
     path('comment',views.CommentView,name="comment"),
-    path('hispost-list/',views.HisPosListView.as_view(),name="post_list"),
     path('good-history/',views.Goodhistory.as_view(),name='good_history'),
     path('my-chat-list/<str:name>/', views.MyChatList, name="my_chat"),
     path('create-chatroom/<str:post_id>/', views.CreateChatRoom, name="create_room"),

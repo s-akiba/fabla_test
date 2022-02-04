@@ -45,7 +45,7 @@ class AppFablaCreateView(LoginRequiredMixin, generic.CreateView):
 
     def form_valid(self, form):
         post = form.save(commit=False)
-        post.user = self.request.user
+        post.user_id = self.request.user
         post.save()
         messages.success(self.request, '日記を作成しました。')
         return super().form_valid(form)
@@ -217,15 +217,6 @@ class ReportFormView(generic.FormView):
     def form_invalid(self,form):
         messages.error(self.request,'通報の送信に失敗しました')
         return super().form_invalid(form)
-
-class HisPosListView(LoginRequiredMixin, generic.ListView):
-    model = Post
-    template_name = 'his_post_list.html'
-    def get_queryset(self):
-        user = self.request.user
-        hispost = Post.objects.filter(user_id=user)
-        print(hispost)
-        return hispost
 
 
 # good-history/
@@ -471,7 +462,24 @@ class PostSortListView(LoginRequiredMixin, generic.ListView):
                 return queryset
             else:
                 return redirect('../')
-            
+
+        elif 'history' in self.request.GET:
+            odrby = self.request.GET.get('order')
+            if odrby == 'new':
+                PostSortListView.odr_by = '新規投稿'
+            elif odrby == 'good':
+                PostSortListView.odr_by = 'いいね数'
+            else:
+                return redirect('../')
+            logger.info('7 history odrby:{}'.format(odrby))
+            his = CustomUser.objects.filter(user_id=self.request.user.user_id)
+            if odrby == 'new':
+                queryset = Post.objects.filter(user_id__in=his).order_by('-created_at')
+            else:
+                queryset = Post.objects.filter(user_id__in=his).annotate(Count('good')).order_by('-good__count')
+            PostSortListView.search_by = '投稿履歴'
+            return queryset
+        
     
     def get_context_data(self, *args, **kwargs):
         context = super(PostSortListView, self).get_context_data(*args, **kwargs)

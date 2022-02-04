@@ -17,7 +17,6 @@
             <a href="{% url 'app_fabla:create_room' post.post_id %}">
                 <h3>チャット新規作成</h3>
             </a>
-            <a class="nav-link" href="{% url 'app_fabla:create_room' object.pk %}">チャット</a>
             <a href="{{request.META.HTTP_REFERER}}">前のページに戻る</a>
         </div>
         <h2 class="post_title">{{ post.title }}</h2>
