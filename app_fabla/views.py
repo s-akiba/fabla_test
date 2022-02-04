@@ -10,7 +10,7 @@ from django.http import HttpResponse
 
 from .forms import AppFablaCreateForm,ReportForm
 
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import JsonResponse
 from django.db.models import Q
 from django.core import serializers
@@ -431,6 +431,10 @@ class PostSortListView(LoginRequiredMixin, generic.ListView):
                 else:
                     queryset = Post.objects.filter(user_id__in=lst).annotate(Count('good')).order_by('-good__count')
                 PostSortListView.search_by = '60才以上'
+                return queryset
+            elif byage == "all":
+                queryset = Post.objects.annotate(Count('good')).order_by('-good__count')
+                PostSortListView.search_by = '全ての投稿'
                 return queryset
             else:
                 return redirect('../')
