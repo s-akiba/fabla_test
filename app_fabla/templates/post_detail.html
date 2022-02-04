@@ -51,7 +51,9 @@
                 
                 
                 {% for checked in checked_list %}
-                <img class="check_icon" src="{{ checked.icon_photo.url }}">
+                <a href="{% url 'app_fabla:profile' checked.user_id %}">
+                    <img class="check_icon" src="{{ checked.icon_photo.url }}">
+                </a>
                 
                 {% empty %}
                 <p>この投稿はまだ議員に読まれていません</p>
