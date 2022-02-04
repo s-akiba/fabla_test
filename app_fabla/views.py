@@ -434,7 +434,7 @@ class PostSortListView(LoginRequiredMixin, generic.ListView):
                 return queryset
             elif byage == "all":
                 queryset = Post.objects.annotate(Count('good')).order_by('-good__count')
-                PostSortListView.search_by = '全ての投稿'
+                PostSortListView.search_by = '全て'
                 return queryset
             else:
                 return redirect('../')
