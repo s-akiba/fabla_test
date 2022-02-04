@@ -73,7 +73,7 @@ class CongressmanListView(generic.ListView):
     template_name = "congressman_list.html"
     model = CustomUser
     def get_queryset(self):
-        query_set = CustomUser.objects.all().filter(assembly=True)
+        query_set = CustomUser.objects.filter(assembly=True)
         return query_set
 
 
