@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+ 
+{% load static %}
+ 
+{% block title %}議員と市民を繋ぐ|Fabla{% endblock %}
+ 
+{% block active_post_list %}active{% endblock %}
+ 
+{% block contents %}
+<section>
+    <div class="container">
+        <div class="post">
+        <div class="starter-template text-center py-5 px-3">
+            <div class="row">
+                <div class="my-div-style w-100">
+                    <div class="col-lg-8 col-md-10 mx-auto">
+                        {% for post in good_list %}
+                            <div class="post-preview" width>
+                                <a href="{% url 'app_fabla:post_detail' post.pk %}">
+                                    <h2 class="post-title">
+                                        {{ post.title }}
+                                    </h2>
+                                    <h3 class="post-subtitle">
+                                        {{ post.contents|truncatechars:20 }}
+                                    </h3>
+                                    <div class="user_data">
+                                        {% if post.user_id.icon_photo %}
+                                            <img class = "check_icon" src="{{ post.user_id.icon_photo.url }}"></a>
+                                        {% endif %}
+                                        <p class="name">{{ post.user_id }}</p>
+                                    </div>
+                                </a>
+                                <p class="post-time">{{ post.created_at }}</p>
+                            </div>
+                            <hr>
+                        {% empty %}
+                            <p>まだ投稿がありません。</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
