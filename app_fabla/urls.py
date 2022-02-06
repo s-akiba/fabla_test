@@ -24,6 +24,8 @@ urlpatterns = [
     path('post-sort/', views.PostSortListView.as_view(), name='post-sort'),
     path('chat-list/<str:post_id>/',views.ChatListView.as_view(), name="chat_list"),
     path('chat-detail/<str:chatroom_id>/',views.ChatDetailView.as_view(), name="chat_detail"),
+    path('phone-verify/', views.verify, name='verify'),
+    path('code-input/', views.code, name='code'),
 ]
 
 

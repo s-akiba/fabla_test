@@ -73,6 +73,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     user_name = models.CharField(verbose_name='ユーザー名', max_length=30, blank=False)
     email = models.EmailField(verbose_name='メールアドレス', unique=True, blank=False,help_text='入力されたメールアドレスに確認メールが送信されます。')
     phone_number = models.CharField(verbose_name='電話番号', unique=True, blank=False, null=True, default=None, max_length=20)
+    phone_verified = models.BooleanField(verbose_name="電話番号認証済み", default=False)
     birth = models.DateField(verbose_name='生年月日', default=datetime.date.today())
     political_faction = models.CharField(verbose_name='党派', max_length=20)
     icon_photo = models.ImageField(verbose_name='アイコン写真', default='default.jpg')

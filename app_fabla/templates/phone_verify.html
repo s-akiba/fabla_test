@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}verify{% endblock %}
+
+
+{% block contents %}
+
+    <div id="verify_div">
+        {% if messages %}
+        <ul class="messages_ul">
+            {% for message in messages %}
+                <li class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <h2>電話番号を入力</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="textbox" name="phone_num" maxlength="15" required>
+            <input type="submit" id="button" name="button" value="送信">
+        </form>
+        <h4>※半角,全角,ハイフンの有無は問いません</h4>
+    </div>
+{% endblock %}

@@ -86,7 +86,7 @@ class ChatDetail(models.Model):
     chatroom_id = models.ForeignKey('Chat', verbose_name='チャットルームID', on_delete=models.CASCADE)
     user_id = models.ForeignKey(CustomUser, verbose_name='ユーザーID', on_delete=models.SET_NULL, null=True)
     content = models.TextField(verbose_name='投稿内容', blank=False)
-    created_at = models.DateTimeField(verbose_name='投稿日時', auto_now_add=True)
+    created_at = models.DateTimeField(verbose_name='投稿日時', auto_now_add=True, max_length=1000)
 
     class Meta:
         verbose_name_plural = 'チャット(詳細)テーブル'

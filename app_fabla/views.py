@@ -28,6 +28,13 @@ import logging
 from dateutil.relativedelta import relativedelta
 import datetime
 from django.db.models.aggregates import Count
+from twilio.rest import Client
+import phonenumbers
+import os
+
+account_sid = os.environ['TWILIO_ACCOUNT_SID']
+auth_token = os.environ['TWILIO_AUTH_TOKEN']
+service_id = os.environ['TWILIO_SERVICE_ID']
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
@@ -492,3 +499,82 @@ class PostSortListView(LoginRequiredMixin, generic.ListView):
         logger.info('5 searchby:{}'.format(PostSortListView.search_by))
         logger.info('6 odrby:{}'.format(PostSortListView.odr_by))
         return context
+
+
+
+# phone-verify
+@login_required
+def verify(request):
+
+    if request.method == "POST":
+        phone_num = request.POST['phone_num']
+        login_user = CustomUser.objects.get(user_id=request.user)
+        x = phonenumbers.parse(phone_num, "JP")
+
+        if phonenumbers.is_valid_number(x):
+            client = Client(account_sid, auth_token)
+            phone_e164 = phonenumbers.format_number(x ,phonenumbers.PhoneNumberFormat.E164)
+            print(phone_e164)
+            verification = client.verify \
+                                 .services(service_id) \
+                                 .verifications \
+                                 .create(to=phone_e164, channel='sms')
+            
+            if verification.status != 'canceled':
+                print(verification.status)
+                login_user.phone_number = phone_num
+                login_user.save()
+                # コード入力ページ遷移
+                return redirect('../code-input/')
+            else:
+                print(verification.status)
+                messages.error(request, '時間を置いて再度送信してください。')
+                return render(request, 'phone_verify.html')
+            
+        else:
+            messages.error(request, '桁数や、有効な電話番号かもう一度確認してください。')
+            return render(request, 'phone_verify.html')
+
+    if request.method == "GET":
+        return render(request, 'phone_verify.html')
+
+
+# code-input/
+@login_required
+def code(request):
+    login_user = CustomUser.objects.get(user_id=request.user)
+
+    if request.method == "GET":
+        return render(request, 'code_input.html')
+        
+        # if login_user.phone_number is None:
+            # return redirect('../phone-verify/')
+        # else:
+            # return render(request, 'code_input.html')
+
+    if request.method == "POST":
+        code_num = request.POST['code_num']
+        client = Client(account_sid, auth_token)
+        phone_num = login_user.phone_number
+        print(phone_num)
+        print(code_num)
+        x = phonenumbers.parse(phone_num, "JP")
+
+        if phonenumbers.is_valid_number(x):
+            phone_e164 = phonenumbers.format_number(x ,phonenumbers.PhoneNumberFormat.E164)
+            verification_check = client.verify \
+                                       .services(service_id) \
+                                       .verification_checks \
+                                       .create(to=phone_e164, code=code_num)
+
+            if verification_check.valid == True:
+                login_user.phone_verified = True
+                login_user.save()
+                messages.success(request, "電話番号の認証に成功しました！")
+                return redirect('../')
+            else:
+                messages.error(request, 'コードが間違っているかコードの有効期限が過ぎています。コードを再入力するか電話番号の入力からやり直してください。')
+                return render(request, 'code_input.html')
+        else:
+            messages.error(request, '電話番号登録からやり直してください。')
+            return render(request, 'code_input.html')

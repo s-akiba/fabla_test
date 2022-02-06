@@ -207,8 +207,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
 
-MEDIA_URL = '/media/'
-
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
@@ -216,5 +214,5 @@ STATICFILES_DIRS = (
 ACCOUNT_USER_MODEL_USERNAME_FIELD = 'user_name'
 
 ACCOUNT_FORMS = { "signup":"accounts.forms.SignupForm"}
- 
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

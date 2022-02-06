@@ -18,8 +18,20 @@
         <h2 class="profile-bio">
             {{ customuser.bio }}
         </h2>
+    {% if customuser.phone_verified is True %}
+        <h4 id="phone_verified">電話番号認証済み</h4>
+    {% endif %}
+    {% if request.user.user_id == customuser.user_id %}
+        {% if customuser.phone_verified is not True %}
+            <a href="{% url 'app_fabla:verify' %}">
+                <h4>電話番号を追加して認証する</h4>
+            </a>
+        {% endif %}
+    {% endif %}
 
+    {% if request.user.user_id == customuser.user_id %}
         <button><a href="{% url 'app_fabla:profile_edit' request.user.pk %}">編集</a></button>
+    {% endif %}
         <li><a href="{% url 'app_fabla:post-sort' %}?order=new&history">投稿履歴</a></li>
         <li><a href="{% url 'app_fabla:good_history' %}">いいね履歴</a></li>
         <li><a href="{% url 'app_fabla:my_chat' request.user.pk %}">チャット一覧</a></li>

@@ -478,3 +478,16 @@ a.btn--orange:hover {
   padding: 0.5em;
   list-style-type: none!important;/*ポチ消す*/
 }
+
+#phone_verified {
+  color: rgb(181, 233, 128);
+}
+
+#verify_div {
+  margin-top: 100px;
+  margin-right: 200px;
+}
+
+#code_div {
+  margin-top: 100px;
+}
