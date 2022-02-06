@@ -94,12 +94,19 @@
                     </button>
                     <nav class="drawer-nav">
                         <ul class="drawer-menu">
-                            <li><a href="{% url 'app_fabla:post-sort' %}?order=good&byage=all">全ての投稿 いいね数順</a></li>
                             <li class="drawer-dropdown"> <a href="#" data-toggle="dropdown" aria-expanded="false">カテゴリー別 いいね数順 <span class="drawer-caret"></span></a>
                                 <ul class="drawer-dropdown-menu">
                                     <li><a href="{% url 'app_fabla:post-sort' %}?order=good&byage=all">すべて</a></li>
                                     {% for category in category_list %}
                                     <li><a href="{% url 'app_fabla:post-sort' %}?order=good&category={{ category.id }}">{{ category.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            <li class="drawer-dropdown"> <a href="#" data-toggle="dropdown" aria-expanded="false">カテゴリー別 新規投稿順 <span class="drawer-caret"></span></a>
+                                <ul class="drawer-dropdown-menu">
+                                    <li><a href="{% url 'app_fabla:post-sort' %}?order=new&byage=all">すべて</a></li>
+                                    {% for category in category_list %}
+                                    <li><a href="{% url 'app_fabla:post-sort' %}?order=new&category={{ category.id }}">{{ category.name }}</a></li>
                                     {% endfor %}
                                 </ul>
                             </li>
@@ -111,14 +118,6 @@
                                     <li><a href="{% url 'app_fabla:post-sort' %}?order=good&byage=40">40代</a></li>
                                     <li><a href="{% url 'app_fabla:post-sort' %}?order=good&byage=50">50代</a></li>
                                     <li><a href="{% url 'app_fabla:post-sort' %}?order=good&byage=ov60">60代以上</a></li>
-                                </ul>
-                            </li>
-                            <li class="drawer-dropdown"> <a href="#" data-toggle="dropdown" aria-expanded="false">カテゴリー別 新規投稿順 <span class="drawer-caret"></span></a>
-                                <ul class="drawer-dropdown-menu">
-                                    <li><a href="{% url 'app_fabla:post-sort' %}?order=new&byage=all">すべて</a></li>
-                                    {% for category in category_list %}
-                                    <li><a href="{% url 'app_fabla:post-sort' %}?order=new&category={{ category.id }}">{{ category.name }}</a></li>
-                                    {% endfor %}
                                 </ul>
                             </li>
                             <li class="drawer-dropdown"> <a href="#" data-toggle="dropdown" aria-expanded="false">年代別 新規投稿順 <span class="drawer-caret"></span></a>
