@@ -8,7 +8,9 @@
 {% block contents %}
 <section>
     <div class="container">
+        {% if not user.assembly %}
         <a href="{% url 'app_fabla:fabla_create' %}" class="btn04 borderleft"><span>投稿</span></a>
+        {% endif %}
         <div class="post_list">
             <div class="starter-template text-center py-5 px-3">
                 <div class="row">

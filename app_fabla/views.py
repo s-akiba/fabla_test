@@ -354,7 +354,6 @@ class PostSortListView(LoginRequiredMixin, generic.ListView):
     model = Post
     search_by = ''
     odr_by = ''
-
     def get_queryset(self):
         logger.info('1 byage:{} category:{} order:{}'.format(self.request.GET.get('byage'),self.request.GET.get('category'),self.request.GET.get('order')))
         if ('byage' not in self.request.GET) and ('category' not in self.request.GET) and ('order' not in self.request.GET):

@@ -97,6 +97,7 @@
                             <li><a href="{% url 'app_fabla:post-sort' %}?order=good&byage=all">全ての投稿 いいね数順</a></li>
                             <li class="drawer-dropdown"> <a href="#" data-toggle="dropdown" aria-expanded="false">カテゴリー別 いいね数順 <span class="drawer-caret"></span></a>
                                 <ul class="drawer-dropdown-menu">
+                                    <li><a href="{% url 'app_fabla:post-sort' %}?order=good&byage=all">すべて</a></li>
                                     {% for category in category_list %}
                                     <li><a href="{% url 'app_fabla:post-sort' %}?order=good&category={{ category.id }}">{{ category.name }}</a></li>
                                     {% endfor %}
@@ -114,6 +115,7 @@
                             </li>
                             <li class="drawer-dropdown"> <a href="#" data-toggle="dropdown" aria-expanded="false">カテゴリー別 新規投稿順 <span class="drawer-caret"></span></a>
                                 <ul class="drawer-dropdown-menu">
+                                    <li><a href="{% url 'app_fabla:post-sort' %}?order=new&byage=all">すべて</a></li>
                                     {% for category in category_list %}
                                     <li><a href="{% url 'app_fabla:post-sort' %}?order=new&category={{ category.id }}">{{ category.name }}</a></li>
                                     {% endfor %}
