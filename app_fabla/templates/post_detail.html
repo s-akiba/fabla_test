@@ -14,9 +14,11 @@
             <a href="{% url 'app_fabla:chat_list' post.post_id %}">
                 <h3>チャット一覧表示</h3>
             </a>
+            {% if request.user.assembly is True %}
             <a href="{% url 'app_fabla:create_room' post.post_id %}">
                 <h3>チャット新規作成</h3>
             </a>
+            {% endif %}
             <a href="{{request.META.HTTP_REFERER}}">前のページに戻る</a>
         </div>
         <h2 class="post_title">{{ post.title }}</h2>
@@ -88,8 +90,6 @@
             {% endfor %}
 
 
-
-            {% csrf_token %}
 
             <!-- 以上コメント機能 -->
         </div>

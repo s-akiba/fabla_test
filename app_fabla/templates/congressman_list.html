@@ -8,7 +8,10 @@
 <div class="kakomi-smart2">
     <div class="list-preview">
         {% if fabla.icon_photo %}
+        <a href="{% url 'app_fabla:profile' fabla.user_id %}">
             <img class = 'cong_icon' src="{{ fabla.icon_photo.url }}" width="50" height="50"/>
+        </a>
+            
         {% endif %}
         <a href="#">
         <p class="list-name">
