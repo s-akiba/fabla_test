@@ -153,11 +153,11 @@ a:hover {
 }
 .post-title {
   color: rgb(146, 141, 141);
-  position:  absolute;        /* 要素の配置方法を指定 */
+  position:  relative;        /* 要素の配置方法を指定 */
   font-size: 210%;
   text-align: center; 
-  margin-top: 70px;
-  margin-left: 140px;
+  margin-left: 70px;
+  margin-right: 70px;
 }
 
 .img {
